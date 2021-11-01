@@ -1,0 +1,41 @@
+import { gql } from "apollo-server-express";
+
+const typeDefs = gql`
+  scalar Date
+  type User {
+    id: ID!
+    token: String
+    firstName: String!
+    lastName: String!
+    username: String!
+    email: String!
+    password: String!
+    follower: [User]
+    following: [User]
+    profilePhoto: String
+    coverPhoto: String
+    createdAt: Date!
+    updatedAt: Date!
+  }
+
+  type Query {
+    getAllUsers: [User]!
+    getUser(userId: ID!): User!
+  }
+
+  type Mutation {
+    register(
+      firstName: String!
+      lastName: String!
+      username: String!
+      email: String!
+      password: String!
+      confirmPassword: String!
+      profilePhoto: String
+      converPhoto: String
+    ): User
+    login(username: String!, password: String!): User!
+  }
+`;
+
+export default typeDefs;
