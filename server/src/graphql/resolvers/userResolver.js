@@ -17,6 +17,9 @@ export const userQueries = {
 };
 
 export const userMutations = {
+  // TODO Email confirmation
+  // TODO Edit User Profile
+  // TODO User form validation
   register: async (_, { firstName, lastName, username, email, password }) => {
     const isUserExist = await User.findOne({ username });
 
@@ -45,7 +48,6 @@ export const userMutations = {
   },
 
   login: async (_, { username, password }, { res }) => {
-    //TODO user form validation
     const user = await User.findOne({ username });
 
     if (!user) {
