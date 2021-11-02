@@ -18,10 +18,11 @@ export const userQueries = {
 export const userMutations = {
   register: async (_, { firstName, lastName, username, email, password }) => {
     const isUserExist = await User.findOne({ username });
-    console.log(isUserExist);
+
     if (isUserExist) {
       throw new Error("User already exist");
     }
+
     try {
       const salt = await genSalt(10);
       password = await hash(password, salt);
@@ -82,6 +83,27 @@ export const userMutations = {
       await followUser.updateOne({ $push: { follower: userId } });
       await currentUser.updateOne({ $push: { following: followId } });
       return "User has been followed";
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  deleteFollow: async (_, { followId }, context) => {
+    const { userId } = checkAuth(context);
+    if (userId === followId) {
+      throw new Error("You can't unfollow yourself");
+    }
+
+    try {
+      const followUser = await User.findById(followId);
+      const currentUser = await User.findById(userId);
+
+      if (!currentUser.following.includes(followId)) {
+        throw new Error("You are not following this user");
+      }
+
+      await followUser.updateOne({ $pull: { follower: userId } });
+      await currentUser.updateOne({ $pull: { following: followId } });
+      return "User has been unfollowed";
     } catch (error) {
       console.log(error);
     }

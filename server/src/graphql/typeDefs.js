@@ -36,6 +36,7 @@ const typeDefs = gql`
     ): User
     login(username: String!, password: String!): User!
     addFollow(followId: String!): String!
+    deleteFollow(followId: String!): String!
   }
 `;
 
