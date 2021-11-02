@@ -65,8 +65,8 @@ export const userMutations = {
       token: createAccessToken(user),
     };
   },
-  addFollow: async (_, { userId, followId }, context) => {
-    const user = checkAuth(context);
+  addFollow: async (_, { followId }, context) => {
+    const { userId } = checkAuth(context);
     if (userId === followId) {
       throw new Error("You can't follow yourself");
     }
