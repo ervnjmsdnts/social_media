@@ -41,6 +41,7 @@ export const userMutations = {
     }
   },
   login: async (_, { username, password }, { res }) => {
+    //TODO user form validation
     const user = await User.findOne({ username });
 
     if (!user) {
@@ -55,7 +56,7 @@ export const userMutations = {
 
     console.log(user);
 
-    res.cookie("jid", createRefreshToken(user), { httpOnly: true });
+    res.cookie("jai", createRefreshToken(user), { httpOnly: true });
 
     return {
       ...user._doc,
