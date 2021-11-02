@@ -78,12 +78,12 @@ export const userMutations = {
     const followUser = await User.findById(followId);
     const currentUser = await User.findById(userId);
 
-    if (currentUser.following.includes(followId)) {
+    if (Boolean(currentUser.following.find((user) => user.id === followId))) {
       throw new Error("Can't follow same user twice");
     }
 
-    await followUser.updateOne({ $push: { follower: userId } });
-    await currentUser.updateOne({ $push: { following: followId } });
+    await followUser.updateOne({ $push: { follower: { ...currentUser } } });
+    await currentUser.updateOne({ $push: { following: { ...followUser } } });
     return "User has been followed";
   },
 

@@ -7,14 +7,20 @@ const userSchema = new Schema(
     username: String,
     email: String,
     password: String,
-    follower: {
-      type: Array,
-      default: [],
-    },
-    following: {
-      type: Array,
-      default: [],
-    },
+    follower: [
+      {
+        firstName: String,
+        lastName: String,
+        username: String,
+      },
+    ],
+    following: [
+      {
+        firstName: String,
+        lastName: String,
+        username: String,
+      },
+    ],
     profilePhoto: {
       type: String,
       default: "",
