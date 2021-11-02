@@ -2,6 +2,7 @@ import { User } from "../../models/user";
 import { genSalt, hash, compare } from "bcrypt";
 
 import { createAccessToken, createRefreshToken } from "../../utils/token";
+import { checkAuth } from "../../utils/checkAuth";
 
 export const userQueries = {
   getAllUsers: async () => {
@@ -64,7 +65,8 @@ export const userMutations = {
       token: createAccessToken(user),
     };
   },
-  addFollow: async (_, { userId, followId }) => {
+  addFollow: async (_, { userId, followId }, context) => {
+    const user = checkAuth(context);
     if (userId === followId) {
       throw new Error("You can't follow yourself");
     }
@@ -77,7 +79,6 @@ export const userMutations = {
         throw new Error("Can't follow same user twice");
       }
 
-      console.log(currentUser.following);
       await followUser.updateOne({ $push: { follower: userId } });
       await currentUser.updateOne({ $push: { following: followId } });
       return "User has been followed";
