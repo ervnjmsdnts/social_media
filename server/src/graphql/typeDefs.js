@@ -10,18 +10,12 @@ const typeDefs = gql`
     username: String!
     email: String!
     password: String!
-    follower: [Follow]
-    following: [Follow]
+    follower: [String]
+    following: [String]
     profilePhoto: String
     coverPhoto: String
     createdAt: Date!
     updatedAt: Date!
-  }
-
-  type Follow {
-    firstName: String!
-    lastName: String!
-    username: String!
   }
 
   type Query {
