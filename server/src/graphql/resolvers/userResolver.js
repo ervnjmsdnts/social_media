@@ -72,20 +72,16 @@ export const userMutations = {
       throw new Error("You can't follow yourself");
     }
 
-    try {
-      const followUser = await User.findById(followId);
-      const currentUser = await User.findById(userId);
+    const followUser = await User.findById(followId);
+    const currentUser = await User.findById(userId);
 
-      if (currentUser.following.includes(followId)) {
-        throw new Error("Can't follow same user twice");
-      }
-
-      await followUser.updateOne({ $push: { follower: userId } });
-      await currentUser.updateOne({ $push: { following: followId } });
-      return "User has been followed";
-    } catch (error) {
-      console.log(error);
+    if (currentUser.following.includes(followId)) {
+      throw new Error("Can't follow same user twice");
     }
+
+    await followUser.updateOne({ $push: { follower: userId } });
+    await currentUser.updateOne({ $push: { following: followId } });
+    return "User has been followed";
   },
   deleteFollow: async (_, { followId }, context) => {
     const { userId } = checkAuth(context);
@@ -93,19 +89,15 @@ export const userMutations = {
       throw new Error("You can't unfollow yourself");
     }
 
-    try {
-      const followUser = await User.findById(followId);
-      const currentUser = await User.findById(userId);
+    const followUser = await User.findById(followId);
+    const currentUser = await User.findById(userId);
 
-      if (!currentUser.following.includes(followId)) {
-        throw new Error("You are not following this user");
-      }
-
-      await followUser.updateOne({ $pull: { follower: userId } });
-      await currentUser.updateOne({ $pull: { following: followId } });
-      return "User has been unfollowed";
-    } catch (error) {
-      console.log(error);
+    if (!currentUser.following.includes(followId)) {
+      throw new Error("You are not following this user");
     }
+
+    await followUser.updateOne({ $pull: { follower: userId } });
+    await currentUser.updateOne({ $pull: { following: followId } });
+    return "User has been unfollowed";
   },
 };
