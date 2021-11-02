@@ -58,6 +58,8 @@ export const userMutations = {
       throw new Error("User credentials are wrong");
     }
 
+    console.log(user);
+
     res.cookie("jai", createRefreshToken(user), { httpOnly: true });
 
     return {
