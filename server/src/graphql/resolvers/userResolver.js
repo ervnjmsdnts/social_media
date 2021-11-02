@@ -6,11 +6,12 @@ import { checkAuth } from "../../utils/checkAuth";
 
 export const userQueries = {
   getAllUsers: async () => {
-    const user = User.find();
+    const user = await User.find();
     return user;
   },
+
   getUser: async (_, { userId }) => {
-    const user = User.findById(userId);
+    const user = await User.findById(userId);
     return user;
   },
 };
@@ -42,6 +43,7 @@ export const userMutations = {
       console.log(error);
     }
   },
+
   login: async (_, { username, password }, { res }) => {
     //TODO user form validation
     const user = await User.findOne({ username });
@@ -66,6 +68,7 @@ export const userMutations = {
       token: createAccessToken(user),
     };
   },
+
   addFollow: async (_, { followId }, context) => {
     const { userId } = checkAuth(context);
     if (userId === followId) {
@@ -83,6 +86,7 @@ export const userMutations = {
     await currentUser.updateOne({ $push: { following: followId } });
     return "User has been followed";
   },
+
   deleteFollow: async (_, { followId }, context) => {
     const { userId } = checkAuth(context);
     if (userId === followId) {

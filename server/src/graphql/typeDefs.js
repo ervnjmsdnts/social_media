@@ -10,8 +10,8 @@ const typeDefs = gql`
     username: String!
     email: String!
     password: String!
-    follower: [User]
-    following: [User]
+    follower: [String]
+    following: [String]
     profilePhoto: String
     coverPhoto: String
     createdAt: Date!
