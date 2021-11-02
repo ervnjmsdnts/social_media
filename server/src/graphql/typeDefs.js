@@ -35,6 +35,7 @@ const typeDefs = gql`
       converPhoto: String
     ): User
     login(username: String!, password: String!): User!
+    addFollow(userId: String!, followId: String!): String!
   }
 `;
 

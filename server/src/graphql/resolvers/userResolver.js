@@ -16,12 +16,12 @@ export const userQueries = {
 
 export const userMutations = {
   register: async (_, { firstName, lastName, username, email, password }) => {
+    const isUserExist = await User.findOne({ username });
+    console.log(isUserExist);
+    if (isUserExist) {
+      throw new Error("User already exist");
+    }
     try {
-      const isUserExist = User.findOne({ username });
-      if (isUserExist) {
-        throw new Error("User already exist");
-      }
-
       const salt = await genSalt(10);
       password = await hash(password, salt);
 
@@ -63,5 +63,26 @@ export const userMutations = {
       id: user.id,
       token: createAccessToken(user),
     };
+  },
+  addFollow: async (_, { userId, followId }) => {
+    if (userId === followId) {
+      throw new Error("You can't follow yourself");
+    }
+
+    try {
+      const followUser = await User.findById(followId);
+      const currentUser = await User.findById(userId);
+
+      if (currentUser.following.includes(followId)) {
+        throw new Error("Can't follow same user twice");
+      }
+
+      console.log(currentUser.following);
+      await followUser.updateOne({ $push: { follower: userId } });
+      await currentUser.updateOne({ $push: { following: followId } });
+      return "User has been followed";
+    } catch (error) {
+      console.log(error);
+    }
   },
 };
