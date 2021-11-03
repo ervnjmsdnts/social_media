@@ -19,9 +19,32 @@ const typeDefs = gql`
     updatedAt: Date!
   }
 
+  type Post {
+    id: ID!
+    body: String!
+    user: String!
+    comments: [Comment]!
+    likes: [Like]!
+  }
+
+  type Comment {
+    id: ID!
+    body: String!
+    username: String!
+    createdAt: Date!
+  }
+
+  type Like {
+    id: ID!
+    username: String!
+    createdAt: Date!
+  }
+
   type Query {
     getAllUsers: [User]!
     getUser(userId: ID!): User!
+    getAllPosts: [Post]!
+    getPost(postId: ID!): Post!
   }
 
   type Mutation {
@@ -38,6 +61,8 @@ const typeDefs = gql`
     login(username: String!, password: String!): User!
     addFollow(followId: String!): String!
     deleteFollow(followId: String!): String!
+    createPost(body: String!): Post!
+    deletePost(postId: ID!): String!
   }
 `;
 
