@@ -77,7 +77,7 @@ export const postMutations = {
     post.comments.unshift({
       body,
       username: user.username,
-      createdAt: new Date(),
+      createdAt: new Date().toISOString(),
     });
     await post.save();
 
@@ -123,7 +123,7 @@ export const postMutations = {
     } else {
       post.likes.push({
         username: user.username,
-        createdAt: new Date(),
+        createdAt: new Date().toISOString(),
       });
     }
 
