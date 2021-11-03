@@ -91,6 +91,7 @@ export const userMutations = {
 
     await followUser.updateOne({ $push: { follower: userId } });
     await currentUser.updateOne({ $push: { following: followId } });
+
     return "User has been followed";
   },
 
