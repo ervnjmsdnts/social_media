@@ -7,18 +7,21 @@ import cookieParser from "cookie-parser";
 import typeDefs from "./graphql/typeDefs";
 import resolvers from "./graphql/resolvers";
 import refreshTokenRoute from "./routes/refreshToken";
+import confirmationRoute from "./routes/confirmation";
 
 (async () => {
   const app = express();
 
   app.use(cookieParser());
   app.use("/refresh_token", refreshTokenRoute);
+  app.use("/confirmation", confirmationRoute);
 
   const server = new ApolloServer({
     typeDefs,
     resolvers,
     context: ({ req, res }) => ({ req, res }),
   });
+
   await server.start();
   server.applyMiddleware({ app });
 

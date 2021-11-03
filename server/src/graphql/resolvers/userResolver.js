@@ -3,6 +3,7 @@ import { genSalt, hash, compare } from "bcrypt";
 
 import { createAccessToken, createRefreshToken } from "../../utils/token";
 import { checkAuth } from "../../utils/checkAuth";
+import { sendConfirmationEmail } from "../../services/emailService";
 
 export const userQueries = {
   getAllUsers: async () => {
@@ -17,8 +18,8 @@ export const userQueries = {
 };
 
 export const userMutations = {
-  // TODO Email confirmation
   // TODO Edit User Profile
+  // TODO Set access token when refresh token is called
   // TODO User form validation
   register: async (_, { firstName, lastName, username, email, password }) => {
     const isUserExist = await User.findOne({ username });
@@ -41,6 +42,8 @@ export const userMutations = {
 
       await user.save();
 
+      sendConfirmationEmail(user);
+
       return user;
     } catch (error) {
       console.log(error);
@@ -52,6 +55,10 @@ export const userMutations = {
 
     if (!user) {
       throw new Error("Could not find user");
+    }
+
+    if (!user.confirmed) {
+      throw new Error("Email not confirmed");
     }
 
     const validPassword = await compare(password, user.password);
