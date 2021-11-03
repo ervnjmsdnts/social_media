@@ -44,7 +44,7 @@ const typeDefs = gql`
     getAllUsers: [User]!
     getUser(userId: ID!): User!
     getAllPosts: [Post]!
-    getPost(postId: ID!): Post!
+    getUserPost: [Post]!
     timeline: [Post]!
   }
 

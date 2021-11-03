@@ -3,14 +3,16 @@ import { User } from "../../models/user";
 import { checkAuth } from "../../utils/checkAuth";
 
 export const postQueries = {
-  // TODO Get post from specific user
   getAllPosts: async () => {
     const posts = await Post.find();
     return posts;
   },
 
-  getPost: async (_, { postId }) => {
-    const post = await Post.findById(postId);
+  getUserPost: async (_, __, context) => {
+    const { userId } = checkAuth(context);
+
+    const post = await Post.find({ user: userId });
+
     return post;
   },
 
