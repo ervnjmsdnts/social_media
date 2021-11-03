@@ -45,6 +45,7 @@ const typeDefs = gql`
     getUser(userId: ID!): User!
     getAllPosts: [Post]!
     getPost(postId: ID!): Post!
+    timeline: [Post]!
   }
 
   type Mutation {

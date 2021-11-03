@@ -13,10 +13,23 @@ export const postQueries = {
     const post = await Post.findById(postId);
     return post;
   },
+
+  timeline: async (_, __, context) => {
+    const { userId } = checkAuth(context);
+
+    const user = await User.findById(userId);
+    const userPost = await Post.find({ user: user.id });
+    const timelinePost = await Promise.all(
+      user.following.map((followId) => {
+        return Post.find({ user: followId });
+      })
+    );
+
+    return userPost.concat(...timelinePost);
+  },
 };
 
 export const postMutations = {
-  // TODO Make timeline for users
   createPost: async (_, { body }, context) => {
     const { userId } = checkAuth(context);
     const user = await User.findById(userId);
