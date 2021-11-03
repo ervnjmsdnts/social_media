@@ -11,3 +11,7 @@ export const createRefreshToken = (user) => {
     expiresIn: "3d",
   });
 };
+
+export const createEmailConfirmationToken = (user) => {
+  return sign({ userId: user.id }, process.env.EMAIL_TOKEN_SECRET);
+};

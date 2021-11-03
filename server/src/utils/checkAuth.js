@@ -16,3 +16,5 @@ export const checkAuth = (context) => {
     throw new Error("Not Authenticated");
   }
 };
+
+export const checkEmailConfirmation = (context) => {};

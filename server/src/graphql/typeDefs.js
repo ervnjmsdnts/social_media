@@ -10,6 +10,7 @@ const typeDefs = gql`
     username: String!
     email: String!
     password: String!
+    confirmed: Boolean!
     follower: [String]
     following: [String]
     profilePhoto: String
