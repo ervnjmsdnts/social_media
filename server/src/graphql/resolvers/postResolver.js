@@ -83,7 +83,7 @@ export const postMutations = {
       (comment) => comment.id === commentId
     );
 
-    if (!post.comments[commentIndex].username === user.username) {
+    if (post.comments[commentIndex].username !== user.username) {
       throw new Error("User does not own post");
     }
 
