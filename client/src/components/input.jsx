@@ -1,4 +1,4 @@
-const Input = ({ type, className, label, placeholder }) => {
+const Input = ({ type, className, label, placeholder, ...props }) => {
   return (
     <div className="flex flex-col">
       {label && (
@@ -10,6 +10,7 @@ const Input = ({ type, className, label, placeholder }) => {
         type={type}
         placeholder={placeholder}
         className={`${className || ""} outline-none rounded-2xl p-2`}
+        {...props}
       />
     </div>
   );
