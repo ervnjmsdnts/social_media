@@ -1,10 +1,13 @@
 import SideBar from "../components/sidebar";
+import Feed from "../components/feed";
 
 const Home = () => {
   return (
-    <div className="flex h-full">
+    <div className="flex">
       <SideBar />
-      <p>Hello World</p>
+      <div className="flex w-full max-w-screen-lg mx-auto">
+        <Feed />
+      </div>
     </div>
   );
 };

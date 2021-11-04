@@ -1,10 +1,15 @@
-const Input = ({ type, className, label }) => {
+const Input = ({ type, className, label, placeholder }) => {
   return (
-    <div className="flex flex-col m-8">
-      <span className="text-primary text-2xl font-semibold ml-2">{label}</span>
+    <div className="flex flex-col">
+      {label && (
+        <span className="text-primary text-2xl font-semibold ml-2 mb-2">
+          {label}
+        </span>
+      )}
       <input
         type={type}
-        className={`${className || ""} outline-none mt-2 rounded-2xl`}
+        placeholder={placeholder}
+        className={`${className || ""} outline-none rounded-2xl p-2`}
       />
     </div>
   );
