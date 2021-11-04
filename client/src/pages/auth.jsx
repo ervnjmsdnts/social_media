@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Button from "../components/button";
-import Login from "../components/auth/login";
-import Register from "../components/auth/register";
+import Button from "../components/Button";
+import Login from "../components/auth/Login";
+import Register from "../components/auth/Register";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);

@@ -1,6 +1,6 @@
-import Input from "./input";
-import ProfilePhoto from "./profilePhoto";
-import Icon from "./icon";
+import Input from "./Input";
+import Icon from "./Icon";
+import ProfilePhoto from "./ProfilePhoto";
 import { Image, VideoPlay } from "iconsax-react";
 import { theme } from "../styles/theme";
 

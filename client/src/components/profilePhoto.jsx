@@ -1,6 +1,6 @@
 import { Profile } from "iconsax-react";
 
-const DefaultProfile = ({ size, className }) => {
+const ProfilePhoto = ({ size, className }) => {
   return (
     <div
       className={`bg-white flex justify-center items-center rounded-full ${
@@ -11,4 +11,4 @@ const DefaultProfile = ({ size, className }) => {
   );
 };
 
-export default DefaultProfile;
+export default ProfilePhoto;

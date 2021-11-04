@@ -1,5 +1,5 @@
-import SideBar from "../components/sidebar";
-import Feed from "../components/feed";
+import SideBar from "../components/SideBar";
+import Feed from "../components/Feed";
 
 const Home = () => {
   return (
