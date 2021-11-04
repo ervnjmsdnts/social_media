@@ -47,6 +47,10 @@
     @apply w-full overflow-y-scroll max-h-[400px] md:h-auto md:max-h-full md:overflow-hidden;
   }
 
+  .sidebar-container {
+    @apply sticky top-0 left-0 w-16 h-screen flex flex-col bg-primary shadow-lg;
+  }
+
   .sidebar-icon {
     @apply flex justify-center items-center h-12 w-12 mt-2 mb-2 mx-auto shadow-lg
      bg-secondary hover:bg-white text-primary rounded-2xl hover:rounded-3xl cursor-pointer 

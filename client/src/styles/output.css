@@ -718,6 +718,19 @@ video {
 		overflow: hidden;
 	}
 }
+.sidebar-container {
+	position: sticky;
+	top: 0px;
+	left: 0px;
+	display: flex;
+	height: 100vh;
+	width: 4rem;
+	flex-direction: column;
+	--tw-bg-opacity: 1;
+	background-color: rgba(23, 33, 61, var(--tw-bg-opacity));
+	--tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+	box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
 .sidebar-icon {
 	margin-left: auto;
 	margin-right: auto;
@@ -821,6 +834,9 @@ video {
 .flex-col {
 	flex-direction: column;
 }
+.justify-center {
+	justify-content: center;
+}
 .rounded-2xl {
 	border-radius: 1rem;
 }
@@ -866,11 +882,13 @@ video {
 	outline: 2px solid transparent;
 	outline-offset: 2px;
 }
+
 .group:hover .group-hover\:scale-100 {
 	--tw-scale-x: 1;
 	--tw-scale-y: 1;
 	transform: var(--tw-transform);
 }
+
 @media (min-width: 768px) {
 
 	.md\:m-0 {

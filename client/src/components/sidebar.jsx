@@ -1,4 +1,5 @@
 import { Activity, LogoutCurve, Message, Profile } from "iconsax-react";
+import { Link } from "react-router-dom";
 
 const SideBarIcon = ({ icon, text = "hi" }) => {
   return (
@@ -11,14 +12,22 @@ const SideBarIcon = ({ icon, text = "hi" }) => {
 };
 const SideBar = () => {
   return (
-    <div className="sticky top-0 left-0 w-16 h-screen flex flex-col bg-primary shadow-lg">
+    <div className="sidebar-container">
       <div className="flex flex-col flex-1">
-        <SideBarIcon icon={<Profile size={32} />} text="User Profile" />
-        <SideBarIcon icon={<Message size={32} />} text="Messages" />
-        <SideBarIcon icon={<Activity size={32} />} text="News Feed" />
+        <Link to="profile">
+          <SideBarIcon icon={<Profile size={32} />} text="User Profile" />
+        </Link>
+        <Link to="messages">
+          <SideBarIcon icon={<Message size={32} />} text="Messages" />
+        </Link>
+        <Link to=".">
+          <SideBarIcon icon={<Activity size={32} />} text="News Feed" />
+        </Link>
       </div>
-      <div className="flex">
-        <SideBarIcon icon={<LogoutCurve size={32} />} text="Logout" />
+      <div className="flex justify-center">
+        <Link to="auth">
+          <SideBarIcon icon={<LogoutCurve size={32} />} text="Logout" />
+        </Link>
       </div>
     </div>
   );
