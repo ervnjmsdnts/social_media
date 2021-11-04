@@ -1,4 +1,5 @@
 import { Profile } from "iconsax-react";
+import { theme } from "../styles/theme";
 
 const ProfilePhoto = ({ size, className }) => {
   return (
@@ -6,7 +7,7 @@ const ProfilePhoto = ({ size, className }) => {
       className={`bg-white flex justify-center items-center rounded-full ${
         className || ""
       }`}>
-      <Profile size={size} variant="Bold" />
+      <Profile size={size} variant="Bold" color={theme.primary} />
     </div>
   );
 };
