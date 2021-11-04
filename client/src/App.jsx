@@ -1,8 +1,13 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Auth from "./pages/auth/auth";
+
 const App = () => {
   return (
-    <div>
-      <p className="text-[100px]">Hello World</p>
-    </div>
+    <Router>
+      <Routes>
+        <Route exact path="/auth" element={<Auth />} />
+      </Routes>
+    </Router>
   );
 };
 
