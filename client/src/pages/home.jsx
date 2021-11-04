@@ -1,6 +1,9 @@
+import SideBar from "../components/sidebar";
+
 const Home = () => {
   return (
-    <div>
+    <div className="flex">
+      <SideBar />
       <p>Hello World</p>
     </div>
   );
