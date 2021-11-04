@@ -13,9 +13,9 @@ const SideBarIcon = ({ icon, text = "hi" }) => {
 const SideBar = () => {
   return (
     <div className="sidebar-container">
-      <div className="flex flex-col flex-1">
+      <div className="flex md:flex-col md:flex-1">
         <Link to="profile">
-          <SideBarIcon icon={<Profile size={32} />} text="User Profile" />
+          <SideBarIcon icon={<Profile size={32} />} text="Profile" />
         </Link>
         <Link to="messages">
           <SideBarIcon icon={<Message size={32} />} text="Messages" />
