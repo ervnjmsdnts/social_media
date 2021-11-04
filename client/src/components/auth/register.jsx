@@ -1,5 +1,5 @@
-import Button from "../../components/button";
-import Input from "../../components/input";
+import Button from "../button";
+import Input from "../input";
 
 const Register = () => {
   return (

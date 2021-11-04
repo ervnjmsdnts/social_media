@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Auth from "./pages/auth/auth";
+import Auth from "./pages/auth";
 import Home from "./pages/home";
 
 const App = () => {
