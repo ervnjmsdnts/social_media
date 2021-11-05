@@ -33,7 +33,12 @@ const Post = ({ image, likeCount, commentCount }) => {
       <Divider />
       <div className="flex">
         <Icon
-          icon={<Like1 variant={isLike && "Bold"} color={theme.primary} />}
+          icon={
+            <Like1
+              variant={isLike ? "Bold" : "Outline"}
+              color={theme.primary}
+            />
+          }
           label={likeCount}
         />
         <Icon icon={<Message2 color={theme.primary} />} label={commentCount} />

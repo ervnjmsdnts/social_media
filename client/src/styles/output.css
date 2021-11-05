@@ -582,17 +582,23 @@ video {
 .left-0 {
 	left: 0px;
 }
-.bottom-14 {
-	bottom: 3.5rem;
+.bottom-20 {
+	bottom: 5rem;
 }
 .bottom-0 {
 	bottom: 0px;
 }
-.m-4 {
-	margin: 1rem;
+.bottom-14 {
+	bottom: 3.5rem;
+}
+.bottom-16 {
+	bottom: 4rem;
 }
 .m-2 {
 	margin: 0.5rem;
+}
+.m-4 {
+	margin: 1rem;
 }
 .m-8 {
 	margin: 2rem;
@@ -635,11 +641,11 @@ video {
 .mb-24 {
 	margin-bottom: 6rem;
 }
-.mb-20 {
-	margin-bottom: 5rem;
-}
 .mt-8 {
 	margin-top: 2rem;
+}
+.mb-20 {
+	margin-bottom: 5rem;
 }
 .flex {
 	display: flex;
@@ -655,6 +661,9 @@ video {
 }
 .h-\[750px\] {
 	height: 750px;
+}
+.h-14 {
+	height: 3.5rem;
 }
 .h-screen {
 	height: 100vh;
@@ -677,8 +686,8 @@ video {
 .w-16 {
 	width: 4rem;
 }
-.w-12 {
-	width: 3rem;
+.w-14 {
+	width: 3.5rem;
 }
 .w-auto {
 	width: auto;
@@ -692,11 +701,14 @@ video {
 .w-\[200px\] {
 	width: 200px;
 }
+.w-\[300px\] {
+	width: 300px;
+}
 .w-\[150px\] {
 	width: 150px;
 }
-.w-\[300px\] {
-	width: 300px;
+.w-12 {
+	width: 3rem;
 }
 .min-w-max {
 	min-width: max-content;
@@ -748,6 +760,9 @@ video {
 .rounded-3xl {
 	border-radius: 1.5rem;
 }
+.rounded-\[2rem\] {
+	border-radius: 2rem;
+}
 .bg-white {
 	--tw-bg-opacity: 1;
 	background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
@@ -766,15 +781,8 @@ video {
 .p-2 {
 	padding: 0.5rem;
 }
-.p-4 {
-	padding: 1rem;
-}
 .p-8 {
 	padding: 2rem;
-}
-.px-4 {
-	padding-left: 1rem;
-	padding-right: 1rem;
 }
 .text-center {
 	text-align: center;
@@ -810,24 +818,6 @@ video {
 .text-4xl {
 	font-size: 2.25rem;
 	line-height: 2.5rem;
-}
-.text-\[200px\] {
-	font-size: 200px;
-}
-.text-\[500px\] {
-	font-size: 500px;
-}
-.text-9xl {
-	font-size: 8rem;
-	line-height: 1;
-}
-.text-8xl {
-	font-size: 6rem;
-	line-height: 1;
-}
-.text-7xl {
-	font-size: 4.5rem;
-	line-height: 1;
 }
 .font-semibold {
 	font-weight: 600;
@@ -873,11 +863,23 @@ video {
 .duration-100 {
 	transition-duration: 100ms;
 }
+.duration-300 {
+	transition-duration: 300ms;
+}
+.duration-700 {
+	transition-duration: 700ms;
+}
 .ease-linear {
 	transition-timing-function: linear;
 }
 .hover\:rounded-3xl:hover {
 	border-radius: 1.5rem;
+}
+.hover\:rounded-full:hover {
+	border-radius: 9999px;
+}
+.hover\:rounded-\[2rem\]:hover {
+	border-radius: 2rem;
 }
 .hover\:bg-white:hover {
 	--tw-bg-opacity: 1;
@@ -902,16 +904,20 @@ video {
 		bottom: 0px;
 	}
 
-	.md\:left-14 {
-		left: 3.5rem;
+	.md\:left-16 {
+		left: 4rem;
 	}
 
 	.md\:top-0 {
 		top: 0px;
 	}
 
-	.md\:left-16 {
-		left: 4rem;
+	.md\:bottom-2 {
+		bottom: 0.5rem;
+	}
+
+	.md\:bottom-1 {
+		bottom: 0.25rem;
 	}
 
 	.md\:m-0 {
