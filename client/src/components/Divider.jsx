@@ -1,6 +1,6 @@
 const Divider = () => {
   return (
-    <div className="mt-4 text-gray-400">
+    <div className="my-4 text-gray-400">
       <hr />
     </div>
   );

@@ -612,6 +612,14 @@ video {
 	margin-top: 2rem;
 	margin-bottom: 2rem;
 }
+.mx-8 {
+	margin-left: 2rem;
+	margin-right: 2rem;
+}
+.my-4 {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
 .mr-2 {
 	margin-right: 0.5rem;
 }
@@ -633,6 +641,15 @@ video {
 .ml-8 {
 	margin-left: 2rem;
 }
+.mt-8 {
+	margin-top: 2rem;
+}
+.mb-4 {
+	margin-bottom: 1rem;
+}
+.mb-8 {
+	margin-bottom: 2rem;
+}
 .flex {
 	display: flex;
 }
@@ -653,6 +670,12 @@ video {
 }
 .h-16 {
 	height: 4rem;
+}
+.h-\[500px\] {
+	height: 500px;
+}
+.h-\[750px\] {
+	height: 750px;
 }
 .max-h-\[400px\] {
 	max-height: 400px;

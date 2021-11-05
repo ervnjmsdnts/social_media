@@ -16,9 +16,15 @@ const Post = ({ image }) => {
         </div>
       </div>
       <Divider />
-      <div className="ml-8 mt-4">
+      <div className="mx-8">
         <p className="text-xl">Hello this is my post</p>
+        {image && (
+          <>
+            <div className="bg-white w-full h-[750px] mt-2"></div>
+          </>
+        )}
       </div>
+      <Divider />
     </Section>
   );
 };

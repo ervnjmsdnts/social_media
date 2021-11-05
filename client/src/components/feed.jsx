@@ -5,7 +5,7 @@ const Feed = () => {
   return (
     <div className="flex flex-col items-center w-full">
       <CreatePost />
-      <Post />
+      <Post image="This is an image" />
       <Post />
       <Post />
       <Post />
