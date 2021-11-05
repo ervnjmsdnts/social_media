@@ -9,7 +9,9 @@ const Input = ({ type, className, label, placeholder, ...props }) => {
       <input
         type={type}
         placeholder={placeholder}
-        className={`${className || ""} outline-none rounded-2xl p-2`}
+        className={`${
+          className || ""
+        } outline-none rounded-2xl p-2 focus:outline-primary transition-all duration-150`}
         {...props}
       />
     </div>

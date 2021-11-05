@@ -8,6 +8,9 @@ module.exports = {
         primary: "#17213D",
         secondary: "#CCD2E3",
       },
+      outline: {
+        primary: "2px solid #17213D",
+      },
     },
   },
   variants: {
