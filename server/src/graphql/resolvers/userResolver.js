@@ -76,6 +76,12 @@ export const userMutations = {
     };
   },
 
+  logout: async (_, __, { res }) => {
+    res.clearCookie("jai");
+
+    return true;
+  },
+
   addFollow: async (_, { followId }, context) => {
     const { userId } = checkAuth(context);
     if (userId === followId) {

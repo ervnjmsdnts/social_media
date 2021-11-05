@@ -60,6 +60,7 @@ const typeDefs = gql`
       converPhoto: String
     ): User
     login(username: String!, password: String!): User!
+    logout: Boolean!
     addFollow(followId: String!): String!
     deleteFollow(followId: String!): String!
     createPost(body: String!): Post!
