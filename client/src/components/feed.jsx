@@ -9,6 +9,11 @@ const Feed = () => {
       <Post />
       <Post />
       <Post />
+      <Post />
+      <Post />
+      <Post />
+      <Post />
+      <Post />
     </div>
   );
 };
