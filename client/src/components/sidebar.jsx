@@ -1,5 +1,5 @@
 import { Activity, LogoutCurve, Message, Profile } from "iconsax-react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { theme } from "../styles/theme";
 
 const SideBarIcon = ({ icon, text = "hi" }) => {
@@ -21,27 +21,27 @@ const SideBarIcon = ({ icon, text = "hi" }) => {
 const SideBar = () => {
   return (
     <div
-      className="absolute md:sticky bottom-0 md:top-0 left-0 w-screen md:w-16 md:h-screen 
+      className="fixed md:sticky bottom-0 md:top-0 left-0 w-screen md:w-16 md:h-screen 
     flex md:flex-col justify-center bg-primary shadow-lg">
       <div className="flex md:flex-col md:flex-1">
-        <Link to="profile">
+        <NavLink to="profile">
           <SideBarIcon
             icon={<Profile size={32} color={theme.primary} />}
             text="Profile"
           />
-        </Link>
-        <Link to="messages">
+        </NavLink>
+        <NavLink to="messages">
           <SideBarIcon
             icon={<Message size={32} color={theme.primary} />}
             text="Messages"
           />
-        </Link>
-        <Link to=".">
+        </NavLink>
+        <NavLink to=".">
           <SideBarIcon
             icon={<Activity size={32} color={theme.primary} />}
             text="News Feed"
           />
-        </Link>
+        </NavLink>
       </div>
       <div className="flex justify-center">
         <Link to="auth">
