@@ -17,7 +17,7 @@ const SideBarIcon = ({ icon, text = "hi", to }) => {
       {icon}
       <span
         className="absolute bottom-16 md:bottom-1 w-auto p-2 m-2 min-w-max md:left-16 rounded-md 
-      shadow-lg text-primary bg-secondary text-xs font-bold 
+      drop-shadow-2xl text-primary bg-secondary text-xs font-bold 
       transition-all duration-100 scale-0 origin-left group-hover:scale-100">
         {text}
       </span>
