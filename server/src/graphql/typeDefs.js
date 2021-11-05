@@ -56,8 +56,6 @@ const typeDefs = gql`
       email: String!
       password: String!
       confirmPassword: String!
-      profilePhoto: String
-      converPhoto: String
     ): User
     login(username: String!, password: String!): User!
     logout: Boolean!

@@ -1,6 +1,7 @@
-import { User } from "../../models/user";
 import { genSalt, hash, compare } from "bcrypt";
+import { verify } from "jsonwebtoken";
 
+import { User } from "../../models/user";
 import { createAccessToken, createRefreshToken } from "../../utils/token";
 import { checkAuth } from "../../utils/checkAuth";
 import { sendConfirmationEmail } from "../../services/emailService";
@@ -21,8 +22,15 @@ export const userMutations = {
   // TODO Edit User Profile
   // TODO Set access token when refresh token is called
   // TODO User form validation
-  register: async (_, { firstName, lastName, username, email, password }) => {
+  register: async (
+    _,
+    { firstName, lastName, username, email, password, confirmPassword }
+  ) => {
     const isUserExist = await User.findOne({ username });
+
+    if (password !== confirmPassword) {
+      throw new Error("Password does not match");
+    }
 
     if (isUserExist) {
       throw new Error("User already exist");

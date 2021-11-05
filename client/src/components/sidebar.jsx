@@ -10,7 +10,7 @@ const SideBarIcon = ({ icon, text = "hi" }) => {
      transition-all duration-200 ease-linear group">
       {icon}
       <span
-        className="absolute bottom-14 md:bottom-0 w-auto p-2 m-2 min-w-max md:left-14 rounded-md 
+        className="absolute bottom-14 md:bottom-0 w-auto p-2 m-2 min-w-max md:left-16 rounded-md 
       shadow-md text-primary bg-secondary text-xs font-bold 
       transition-all duration-100 scale-0 origin-left group-hover:scale-100">
         {text}
@@ -21,7 +21,7 @@ const SideBarIcon = ({ icon, text = "hi" }) => {
 const SideBar = () => {
   return (
     <div
-      className="fixed md:sticky bottom-0 md:top-0 left-0 w-screen md:w-16 md:h-screen 
+      className="fixed md:sticky bottom-0 md:top-0 left-0 w-screen md:w-20 md:h-screen 
     flex md:flex-col justify-center bg-primary shadow-lg">
       <div className="flex md:flex-col md:flex-1">
         <NavLink to="profile">

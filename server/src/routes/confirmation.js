@@ -11,10 +11,9 @@ router.get("/:token", async (req, res) => {
     await user.updateOne({ confirmed: true });
   } catch (error) {
     console.log(error);
-    return res.send({ emailConfirmed: "" });
+    return res.send(false);
   }
-
-  return res.send({ emailConfirmed: "confirmed" });
+  return res.send(true);
 });
 
 export default router;

@@ -1,8 +1,14 @@
 import ProfilePhoto from "./ProfilePhoto";
 import Section from "./layout/Section";
 import Divider from "./Divider";
+import Icon from "./Icon";
+import { Like1, Message2 } from "iconsax-react";
+import { theme } from "../styles/theme";
 
-const Post = ({ image }) => {
+const Post = ({ image, likeCount, commentCount }) => {
+  //TODO setup is like
+  //TODO make comment component
+  const isLike = false;
   return (
     <Section className="flex justify-center flex-col">
       <div className="flex">
@@ -25,6 +31,13 @@ const Post = ({ image }) => {
         )}
       </div>
       <Divider />
+      <div className="flex">
+        <Icon
+          icon={<Like1 variant={isLike && "Bold"} color={theme.primary} />}
+          label={likeCount}
+        />
+        <Icon icon={<Message2 color={theme.primary} />} label={commentCount} />
+      </div>
     </Section>
   );
 };

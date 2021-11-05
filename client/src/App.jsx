@@ -1,15 +1,19 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Auth from "./pages/Auth";
+import Confirmation from "./pages/Confirmation";
 import Home from "./pages/Home";
 
 const App = () => {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
-        <Route exact path="/auth" element={<Auth />} />
-        <Route exact path="/" element={<Home />} />
+        <Route path="" element={<Home />} />
+        <Route path="auth" element={<Auth />} />
+        <Route path="confirmation/:token" element={<Confirmation />} />
+        <Route path="profile/" element={<Home />} />
+        <Route path="profile/:id" element={<Auth />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 };
 
