@@ -1,13 +1,14 @@
 import SideBar from "../components/SideBar";
 import Feed from "../components/Feed";
+import Main from "../components/layout/Main";
 
 const Home = () => {
   return (
     <div className="flex">
       <SideBar />
-      <div className="flex w-full max-w-screen-lg mx-auto">
+      <Main>
         <Feed />
-      </div>
+      </Main>
     </div>
   );
 };

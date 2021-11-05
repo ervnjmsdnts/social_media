@@ -1,4 +1,4 @@
-const Input = ({ type, className, label, placeholder, ...props }) => {
+const Input = ({ type, className, label, placeholder, textBig, ...props }) => {
   return (
     <div className="flex flex-col">
       {label && (
@@ -9,9 +9,9 @@ const Input = ({ type, className, label, placeholder, ...props }) => {
       <input
         type={type}
         placeholder={placeholder}
-        className={`${
-          className || ""
-        } outline-none rounded-2xl p-2 focus:outline-primary transition-all duration-150`}
+        className={`${className || ""} ${
+          textBig && "text-lg"
+        } outline-none rounded-2xl p-2 text-base focus:outline-primary transition-all duration-150`}
         {...props}
       />
     </div>
