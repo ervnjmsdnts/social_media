@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
 import Button from "../components/Button";
@@ -12,7 +11,7 @@ const Confirmation = () => {
   useEffect(() => {
     const getToken = async () => {
       try {
-        const response = await axios.get(
+        const response = await fetch(
           `http://localhost:5000/confirmation/${token}`
         );
         setIsValidToken(response.data);

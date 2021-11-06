@@ -1,6 +1,7 @@
 import express from "express";
 import { verify } from "jsonwebtoken";
 import { User } from "../models/user";
+import { sendRefreshToken } from "../utils/sendRefreshToken";
 import { createAccessToken, createRefreshToken } from "../utils/token";
 
 const router = express.Router();
@@ -22,7 +23,7 @@ router.post("/", async (req, res) => {
 
   const user = await User.findOne({ id: payload.userId });
 
-  res.cookie("jai", createRefreshToken(user), { httpOnly: true });
+  sendRefreshToken(res, createRefreshToken(user));
 
   return res.send({ accessToken: createAccessToken(user) });
 });

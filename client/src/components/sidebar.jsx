@@ -1,7 +1,8 @@
 import { Activity, LogoutCurve, Message, Profile } from "iconsax-react";
 import { Link, useResolvedPath, useMatch } from "react-router-dom";
-import { theme } from "../styles/theme";
 import { useMutation } from "@apollo/client";
+
+import { theme } from "../styles/theme";
 import { LOGOUT } from "../config/graphql/mutations";
 
 const SideBarIcon = ({ icon, text = "hi", to, ...props }) => {
@@ -30,9 +31,9 @@ const SideBarIcon = ({ icon, text = "hi", to, ...props }) => {
 const SideBar = () => {
   const [Logout] = useMutation(LOGOUT);
 
-  const handleClick = () => {
+  const handleClick = async () => {
     localStorage.removeItem("accessToken");
-    Logout();
+    await Logout();
   };
 
   return (

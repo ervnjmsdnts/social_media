@@ -1,10 +1,10 @@
 import { genSalt, hash, compare } from "bcrypt";
-import { verify } from "jsonwebtoken";
 
 import { User } from "../../models/user";
 import { createAccessToken, createRefreshToken } from "../../utils/token";
 import { checkAuth } from "../../utils/checkAuth";
 import { sendConfirmationEmail } from "../../services/emailService";
+import { sendRefreshToken } from "../../utils/sendRefreshToken";
 
 export const userQueries = {
   getAllUsers: async () => {
@@ -75,7 +75,7 @@ export const userMutations = {
       throw new Error("User credentials are wrong");
     }
 
-    res.cookie("jai", createRefreshToken(user), { httpOnly: true });
+    sendRefreshToken(res, createRefreshToken(user));
 
     return {
       ...user._doc,
@@ -86,7 +86,6 @@ export const userMutations = {
 
   logout: async (_, __, { res }) => {
     res.clearCookie("jai");
-
     return true;
   },
 

@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import ApolloConfig from "./config/apolloConfig";
 import { ApolloProvider } from "@apollo/client";
 
 import "./styles/output.css";
 import App from "./App";
+import { ApolloConfig } from "./config/apollo/apolloConfig";
 
 const { client } = ApolloConfig();
 
