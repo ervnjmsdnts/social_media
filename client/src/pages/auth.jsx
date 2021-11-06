@@ -5,6 +5,7 @@ import Register from "../components/auth/Register";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
+  //TODO Change is button background on isLogin state
   return (
     <div className="flex flex-col md:flex-row flex-1 bg-primary h-screen">
       {/* Title */}

@@ -1,5 +1,7 @@
 import { createTransport } from "nodemailer";
 import { sign } from "jsonwebtoken";
+import hbs from "nodemailer-express-handlebars";
+import path from "path";
 
 const transport = createTransport({
   service: "Gmail",
@@ -9,14 +11,33 @@ const transport = createTransport({
   },
 });
 
-export const sendConfirmationEmail = (user) => {
+console.log(path.join(__dirname + "/template"));
+
+transport.use(
+  "compile",
+  hbs({
+    viewEngine: { defaultLayout: false },
+    viewPath: path.join(__dirname + "/template"),
+  })
+);
+
+export const sendConfirmationEmail = async (user) => {
   const emailToken = sign({ userId: user.id }, process.env.EMAIL_TOKEN_SECRET, {
     expiresIn: "1d",
   });
   const url = `http://localhost:3000/confirmation/${emailToken}`;
-  transport.sendMail({
+
+  const mailOptions = {
     to: user.email,
     subject: "Confirmation Email",
-    html: `Click to confirm email: <a href="${url}">${url}</a>`,
-  });
+    template: "email",
+    context: { url },
+  };
+
+  try {
+    await transport.sendMail(mailOptions);
+    console.log("Email sent");
+  } catch (error) {
+    console.log(error);
+  }
 };
