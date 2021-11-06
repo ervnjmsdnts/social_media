@@ -1,22 +1,19 @@
-import { useState } from "react";
+import { useMutation } from "@apollo/client";
+
 import Button from "../Button";
 import Input from "../Input";
 import { LOGIN } from "../../config/graphql/mutations";
-import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "../../utils/hooks/useForm";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
   const navigate = useNavigate();
 
   const [Login] = useMutation(LOGIN);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const loginCallBack = async () => {
     try {
-      const response = await Login({ variables: { username, password } });
+      const response = await Login({ variables: values });
 
       if (response && response.data) {
         localStorage.setItem("accessToken", response.data.login.token);
@@ -28,24 +25,31 @@ const Login = () => {
     }
   };
 
+  const { onChange, onSubmit, values } = useForm(loginCallBack, {
+    username: "",
+    password: "",
+  });
+
   return (
     <form
       className="bg-secondary md:h-full w-full rounded-3xl flex flex-col items-center"
-      onSubmit={handleSubmit}>
+      onSubmit={onSubmit}>
       <h2 className="text-primary text-4xl font-bold my-8">Log In</h2>
       <div className="w-full">
         <div className="m-8">
           <Input
             type="text"
             label="Username:"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            name="username"
+            value={values.username}
+            onChange={onChange}
           />
           <Input
             type="password"
             label="Password:"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            name="password"
+            value={values.password}
+            onChange={onChange}
           />
         </div>
       </div>
