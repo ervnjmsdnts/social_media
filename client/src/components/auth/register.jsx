@@ -35,7 +35,7 @@ const Register = () => {
       onSubmit={onSubmit}>
       <h2 className="text-primary text-4xl font-bold my-8">Register</h2>
       <div className="w-full overflow-y-scroll max-h-[400px] md:h-auto md:max-h-full md:overflow-hidden">
-        <div className="m-8">
+        <div className="m-8 flex flex-col">
           <Input
             type="text"
             label="First Name:"

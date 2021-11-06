@@ -15,7 +15,6 @@ const Login = () => {
     try {
       const response = await Login({
         variables: values,
-        fetchPolicy: "network-only",
       });
 
       if (response && response.data) {
@@ -39,7 +38,7 @@ const Login = () => {
       onSubmit={onSubmit}>
       <h2 className="text-primary text-4xl font-bold my-8">Log In</h2>
       <div className="w-full">
-        <div className="m-8">
+        <div className="m-8 flex flex-col">
           <Input
             type="text"
             label="Username:"

@@ -38,3 +38,11 @@ export const LOGOUT = gql`
     logout
   }
 `;
+
+export const CREATE_POST = gql`
+  mutation CreatePost($body: String!) {
+    createPost(body: $body) {
+      body
+    }
+  }
+`;

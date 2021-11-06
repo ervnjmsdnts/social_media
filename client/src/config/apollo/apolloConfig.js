@@ -9,6 +9,8 @@ export const ApolloConfig = () => {
     credentials: "include",
   });
 
+  const cache = new InMemoryCache({});
+
   const authLink = setContext((_, { headers }) => {
     const token = localStorage.getItem("accessToken");
     return {
@@ -57,19 +59,7 @@ export const ApolloConfig = () => {
 
   const client = new ApolloClient({
     link: authLink.concat(refreshLink).concat(httpLink),
-    cache: new InMemoryCache({
-      typePolicies: {
-        Query: {
-          fields: {
-            timeline: {
-              merge(existing = [], incoming) {
-                return { ...existing, ...incoming };
-              },
-            },
-          },
-        },
-      },
-    }),
+    cache,
     credentials: "include",
   });
 

@@ -3,7 +3,7 @@ const Section = ({ children, className }) => {
     <div
       className={`${
         className || ""
-      } h-auto p-8 bg-secondary w-full m-2 rounded-xl`}>
+      } h-auto p-8 bg-secondary w-full m-2 md:rounded-xl`}>
       {children}
     </div>
   );
