@@ -20,7 +20,7 @@ export const postQueries = {
     const { userId } = checkAuth(context);
 
     const user = await User.findById(userId);
-    const userPost = await Post.find({ user: user.id });
+    const userPost = await Post.find({ user: user.id }).populate("user");
     const timelinePost = await Promise.all(
       user.following.map((followId) => {
         return Post.find({ user: followId });
@@ -39,7 +39,7 @@ export const postMutations = {
     try {
       const post = await new Post({
         body,
-        user: user.id,
+        user,
       });
 
       await post.save();

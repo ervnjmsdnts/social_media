@@ -3,10 +3,14 @@ import Button from "../Button";
 import Input from "../Input";
 import { LOGIN } from "../../graphql/mutations";
 import { useMutation } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
+import { setAccessToken } from "../../util/accessToken";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const [Login] = useMutation(LOGIN);
 
@@ -14,7 +18,14 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await Login({ variables: { username, password } });
-      console.log(response.data.login);
+
+      console.log(response.data.login.token);
+
+      if (response && response.data) {
+        setAccessToken(response.data.login.token);
+      }
+
+      navigate("/", { replace: true });
     } catch (error) {
       console.log(error);
     }

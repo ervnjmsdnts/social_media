@@ -4,8 +4,9 @@ import Divider from "./Divider";
 import Icon from "./Icon";
 import { Like1, Message2 } from "iconsax-react";
 import { theme } from "../styles/theme";
+import { format } from "timeago.js";
 
-const Post = ({ image, likeCount, commentCount }) => {
+const Post = ({ body, user, image, createdAt, likeCount, commentCount }) => {
   //TODO setup is like
   //TODO make comment component
   const isLike = false;
@@ -15,15 +16,17 @@ const Post = ({ image, likeCount, commentCount }) => {
         <ProfilePhoto size={40} className="h-16 w-16 mr-2" />
         <div className="flex flex-col justify-center text-primary">
           <div>
-            <span className="font-bold mr-2 text-lg">Earvin James Dantes</span>
-            <span className="font-semibold text-lg">@Oduum</span>
+            <span className="font-bold mr-2 text-lg">
+              {user.firstName} {user.lastName}
+            </span>
+            <span className="font-semibold text-lg">@{user.username}</span>
           </div>
-          <span>12m ago</span>
+          <span>{format(createdAt)}</span>
         </div>
       </div>
       <Divider />
       <div className="mx-8">
-        <p className="text-xl">Hello this is my post</p>
+        <p className="text-xl">{body}</p>
         {image && (
           <>
             <div className="bg-white w-full h-[750px] mt-2"></div>

@@ -25,6 +25,18 @@ const typeDefs = gql`
     user: String!
     comments: [Comment]!
     likes: [Like]!
+    createdAt: Date!
+    updatedAt: Date!
+  }
+
+  type Timeline {
+    id: ID!
+    body: String!
+    user: User!
+    comments: [Comment]!
+    likes: [Like]!
+    createdAt: Date!
+    updatedAt: Date!
   }
 
   type Comment {
@@ -45,7 +57,7 @@ const typeDefs = gql`
     getUser(userId: ID!): User!
     getAllPosts: [Post]!
     getUserPost: [Post]!
-    timeline: [Post]!
+    timeline: [Timeline]!
   }
 
   type Mutation {
