@@ -11,8 +11,6 @@ const transport = createTransport({
   },
 });
 
-console.log(path.join(__dirname + "/template"));
-
 transport.use(
   "compile",
   hbs({
@@ -36,7 +34,6 @@ export const sendConfirmationEmail = async (user) => {
 
   try {
     await transport.sendMail(mailOptions);
-    console.log("Email sent");
   } catch (error) {
     console.log(error);
   }

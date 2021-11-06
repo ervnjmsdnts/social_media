@@ -1,10 +1,10 @@
 import CreatePost from "./CreatePost";
 import Post from "./Post";
-import { TIMELINE } from "../graphql/queries";
+import { TIMELINE } from "../config/graphql/queries";
 import { useQuery } from "@apollo/client";
 
 const Feed = () => {
-  const { data } = useQuery(TIMELINE);
+  const { data } = useQuery(TIMELINE, { fetchPolicy: "network-only" });
 
   return (
     <div className="flex flex-col items-center w-full">

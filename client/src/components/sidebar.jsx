@@ -1,8 +1,10 @@
 import { Activity, LogoutCurve, Message, Profile } from "iconsax-react";
 import { Link, useResolvedPath, useMatch } from "react-router-dom";
 import { theme } from "../styles/theme";
+import { useMutation } from "@apollo/client";
+import { LOGOUT } from "../config/graphql/mutations";
 
-const SideBarIcon = ({ icon, text = "hi", to }) => {
+const SideBarIcon = ({ icon, text = "hi", to, ...props }) => {
   const resolved = useResolvedPath(to);
   const match = useMatch({ path: resolved.pathname, end: true });
 
@@ -13,7 +15,8 @@ const SideBarIcon = ({ icon, text = "hi", to }) => {
       } relative flex justify-center items-center h-14 w-14 mt-2 mb-2 mx-2 md:mx-auto shadow-lg
      hover:bg-white hover:rounded-[2rem] cursor-pointer 
      transition-all duration-200 ease-linear group`}
-      to={to}>
+      to={to}
+      {...props}>
       {icon}
       <span
         className="absolute bottom-16 md:bottom-1 w-auto p-2 m-2 min-w-max md:left-16 rounded-md 
@@ -25,6 +28,13 @@ const SideBarIcon = ({ icon, text = "hi", to }) => {
   );
 };
 const SideBar = () => {
+  const [Logout] = useMutation(LOGOUT);
+
+  const handleClick = () => {
+    localStorage.removeItem("accessToken");
+    Logout();
+  };
+
   return (
     <div
       className="fixed md:sticky bottom-0 md:top-0 left-0 w-screen md:w-20 md:h-screen 
@@ -51,6 +61,7 @@ const SideBar = () => {
           icon={<LogoutCurve size={32} color={theme.primary} />}
           text="Logout"
           to="auth"
+          onClick={() => handleClick()}
         />
       </div>
     </div>

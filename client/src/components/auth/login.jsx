@@ -1,10 +1,9 @@
 import { useState } from "react";
 import Button from "../Button";
 import Input from "../Input";
-import { LOGIN } from "../../graphql/mutations";
+import { LOGIN } from "../../config/graphql/mutations";
 import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
-import { setAccessToken } from "../../util/accessToken";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -19,10 +18,8 @@ const Login = () => {
     try {
       const response = await Login({ variables: { username, password } });
 
-      console.log(response.data.login.token);
-
       if (response && response.data) {
-        setAccessToken(response.data.login.token);
+        localStorage.setItem("accessToken", response.data.login.token);
       }
 
       navigate("/", { replace: true });
