@@ -5,7 +5,6 @@ import Register from "../components/auth/Register";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
-  //TODO Change is button background on isLogin state
   return (
     <div className="flex flex-col md:flex-row flex-1 bg-primary h-screen">
       {/* Title */}
@@ -18,12 +17,16 @@ const Auth = () => {
           </div>
           <div className="md:ml-8 flex md:flex-col items-center justify-center md:items-start">
             <Button
-              className="bg-white text-primary text-3xl w-[200px] md:w-[300px] md:mb-8 m-2 md:m-0"
+              className={`text-primary text-3xl w-[200px] md:w-[300px] md:mb-8 m-2 md:m-0 ${
+                isLogin ? "bg-white" : "bg-secondary"
+              }`}
               onClick={() => setIsLogin(true)}>
               Login
             </Button>
             <Button
-              className="bg-secondary text-primary text-3xl w-[200px] md:w-[300px]"
+              className={`text-primary text-3xl w-[200px] md:w-[300px] ${
+                isLogin ? "bg-secondary" : "bg-white"
+              }`}
               onClick={() => setIsLogin(false)}>
               Register
             </Button>
