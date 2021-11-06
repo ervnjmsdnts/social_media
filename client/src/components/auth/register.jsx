@@ -1,70 +1,82 @@
-import { useState } from "react";
+import { useMutation } from "@apollo/client";
+
 import Button from "../Button";
 import Input from "../Input";
+import { REGISTER } from "../../config/graphql/mutations";
+import { useForm } from "../../utils/hooks/useForm";
 
 const Register = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [Register] = useMutation(REGISTER);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form is submitting");
-    console.log(
-      firstName,
-      lastName,
-      username,
-      email,
-      password,
-      confirmPassword
-    );
+  const registerCallBack = async () => {
+    try {
+      const response = await Register({ variables: values });
+
+      if (response && response.data) {
+        console.log("User is registered");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  const { onChange, onSubmit, values } = useForm(registerCallBack, {
+    firstName: "",
+    lastName: "",
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
   return (
     <form
       className="bg-secondary w-full rounded-3xl flex flex-col items-center"
-      onSubmit={handleSubmit}>
+      onSubmit={onSubmit}>
       <h2 className="text-primary text-4xl font-bold my-8">Register</h2>
       <div className="w-full overflow-y-scroll max-h-[400px] md:h-auto md:max-h-full md:overflow-hidden">
         <div className="m-8">
           <Input
             type="text"
             label="First Name:"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            name="firstName"
+            value={values.firstName}
+            onChange={onChange}
           />
           <Input
             type="text"
             label="Last Name:"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            name="lastName"
+            value={values.lastName}
+            onChange={onChange}
           />
           <Input
             type="text"
             label="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            name="username"
+            value={values.username}
+            onChange={onChange}
           />
           <Input
             type="text"
             label="Email Address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            name="email"
+            value={values.email}
+            onChange={onChange}
           />
           <Input
             type="password"
             label="Password:"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            name="password"
+            value={values.password}
+            onChange={onChange}
           />
           <Input
             type="password"
             label="Confirm Password:"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            name="confirmPassword"
+            value={values.confirmPassword}
+            onChange={onChange}
           />
         </div>
       </div>
