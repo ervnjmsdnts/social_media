@@ -4,7 +4,6 @@ const typeDefs = gql`
   scalar Date
   type User {
     id: ID!
-    token: String
     firstName: String!
     lastName: String!
     username: String!

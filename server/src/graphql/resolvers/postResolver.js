@@ -9,17 +9,17 @@ export const postQueries = {
   },
 
   getUserPost: async (_, __, context) => {
-    const { userId } = checkAuth(context);
+    const { id } = await checkAuth(context);
 
-    const post = await Post.find({ user: userId });
+    const post = await Post.find({ user: id });
 
     return post;
   },
 
   timeline: async (_, __, context) => {
-    const { userId } = checkAuth(context);
+    const { id } = await checkAuth(context);
 
-    const user = await User.findById(userId);
+    const user = await User.findById(id);
     const userPost = await Post.find({ user: user.id }).populate("user");
     const timelinePost = await Promise.all(
       user.following.map((followId) => {
@@ -33,8 +33,8 @@ export const postQueries = {
 
 export const postMutations = {
   createPost: async (_, { body }, context) => {
-    const { userId } = checkAuth(context);
-    const user = await User.findById(userId);
+    const { id } = await checkAuth(context);
+    const user = await User.findById(id);
 
     try {
       const post = await new Post({
@@ -46,14 +46,15 @@ export const postMutations = {
 
       return post;
     } catch (error) {
+      console.log("something went wrong");
       console.log(error);
     }
   },
 
   deletePost: async (_, { postId }, context) => {
-    const { userId } = checkAuth(context);
+    const { id } = await checkAuth(context);
 
-    const user = await User.findById(userId);
+    const user = await User.findById(id);
     const post = await Post.findById(postId);
 
     if (!user.id === post.user) {
@@ -65,9 +66,9 @@ export const postMutations = {
   },
 
   createComment: async (_, { postId, body }, context) => {
-    const { userId } = checkAuth(context);
+    const { id } = await checkAuth(context);
 
-    const user = await User.findById(userId);
+    const user = await User.findById(id);
     const post = await Post.findById(postId);
 
     if (!post) {
@@ -85,9 +86,9 @@ export const postMutations = {
   },
 
   deleteComment: async (_, { postId, commentId }, context) => {
-    const { userId } = checkAuth(context);
+    const { id } = await checkAuth(context);
 
-    const user = await User.findById(userId);
+    const user = await User.findById(id);
     const post = await Post.findById(postId);
 
     if (!post) {
@@ -109,9 +110,9 @@ export const postMutations = {
   },
 
   likePost: async (_, { postId }, context) => {
-    const { userId } = checkAuth(context);
+    const { id } = await checkAuth(context);
 
-    const user = await User.findById(userId);
+    const user = await User.findById(id);
     const post = await Post.findById(postId);
 
     if (!post) {

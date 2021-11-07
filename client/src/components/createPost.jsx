@@ -48,6 +48,7 @@ const CreatePost = () => {
               Send
             </Button>
           </div>
+          <div>{values.body}</div>
           <div className="absolute flex -bottom-9 md:-bottom-11 left-0">
             <Icon icon={<Image color={theme.primary} />} label="Photo" />
             <Icon icon={<VideoPlay color={theme.primary} />} label="Video" />

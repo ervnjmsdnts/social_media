@@ -13,13 +13,9 @@ const Login = () => {
 
   const loginCallBack = async () => {
     try {
-      const response = await Login({
+      await Login({
         variables: values,
       });
-
-      if (response && response.data) {
-        localStorage.setItem("accessToken", response.data.login.token);
-      }
 
       navigate("/", { replace: true });
     } catch (error) {

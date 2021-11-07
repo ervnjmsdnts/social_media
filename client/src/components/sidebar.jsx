@@ -1,6 +1,6 @@
 import { Activity, LogoutCurve, Message, Profile } from "iconsax-react";
 import { Link, useResolvedPath, useMatch } from "react-router-dom";
-import { useMutation } from "@apollo/client";
+import { useMutation, useApolloClient } from "@apollo/client";
 
 import { theme } from "../styles/theme";
 import { LOGOUT } from "../config/graphql/mutations";
@@ -29,11 +29,14 @@ const SideBarIcon = ({ icon, text = "hi", to, ...props }) => {
   );
 };
 const SideBar = () => {
+  const client = useApolloClient();
+
   const [Logout] = useMutation(LOGOUT);
 
   const handleClick = async () => {
-    localStorage.removeItem("accessToken");
     await Logout();
+    localStorage.removeItem("accessToken");
+    await client.clearStore();
   };
 
   return (

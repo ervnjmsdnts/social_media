@@ -1,7 +1,7 @@
 import { genSalt, hash, compare } from "bcrypt";
 
 import { User } from "../../models/user";
-import { createAccessToken, createRefreshToken } from "../../utils/token";
+import { createAccessToken, createRefreshToken } from "../../utils/createToken";
 import { checkAuth } from "../../utils/checkAuth";
 import { sendConfirmationEmail } from "../../services/emailService";
 import { sendRefreshToken } from "../../utils/sendRefreshToken";
@@ -77,11 +77,9 @@ export const userMutations = {
 
     sendRefreshToken(res, createRefreshToken(user));
 
-    return {
-      ...user._doc,
-      id: user.id,
-      token: createAccessToken(user),
-    };
+    res.setHeader("access-token", createAccessToken(user));
+
+    return user;
   },
 
   logout: async (_, __, { res }) => {
@@ -90,38 +88,38 @@ export const userMutations = {
   },
 
   addFollow: async (_, { followId }, context) => {
-    const { userId } = checkAuth(context);
-    if (userId === followId) {
+    const { id } = await checkAuth(context);
+    if (id === followId) {
       throw new Error("You can't follow yourself");
     }
 
     const followUser = await User.findById(followId);
-    const currentUser = await User.findById(userId);
+    const currentUser = await User.findById(id);
 
     if (currentUser.following.includes(followId)) {
       throw new Error("Can't follow same user twice");
     }
 
-    await followUser.updateOne({ $push: { follower: userId } });
+    await followUser.updateOne({ $push: { follower: id } });
     await currentUser.updateOne({ $push: { following: followId } });
 
     return "User has been followed";
   },
 
   deleteFollow: async (_, { followId }, context) => {
-    const { userId } = checkAuth(context);
-    if (userId === followId) {
+    const { id } = await checkAuth(context);
+    if (id === followId) {
       throw new Error("You can't unfollow yourself");
     }
 
     const followUser = await User.findById(followId);
-    const currentUser = await User.findById(userId);
+    const currentUser = await User.findById(id);
 
     if (!currentUser.following.includes(followId)) {
       throw new Error("You are not following this user");
     }
 
-    await followUser.updateOne({ $pull: { follower: userId } });
+    await followUser.updateOne({ $pull: { follower: id } });
     await currentUser.updateOne({ $pull: { following: followId } });
     return "User has been unfollowed";
   },

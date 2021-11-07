@@ -1,7 +1,10 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
-import { TokenRefreshLink } from "apollo-link-token-refresh";
-import jwtDecode from "jwt-decode";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloLink,
+  from,
+  createHttpLink,
+} from "@apollo/client";
 
 export const ApolloConfig = () => {
   const httpLink = new createHttpLink({
@@ -9,58 +12,44 @@ export const ApolloConfig = () => {
     credentials: "include",
   });
 
-  const cache = new InMemoryCache({});
-
-  const authLink = setContext((_, { headers }) => {
+  const middlewareAuthLink = new ApolloLink((operation, forward) => {
     const token = localStorage.getItem("accessToken");
-    return {
+
+    const authHeader = token ? `Bearer ${token}` : "";
+
+    operation.setContext({
       headers: {
-        ...headers,
-        authorization: token ? `Bearer ${token}` : "",
+        authorization: authHeader,
       },
-    };
+    });
+
+    return forward(operation);
   });
 
-  const refreshLink = new TokenRefreshLink({
-    accessTokenField: "accessToken",
-    isTokenValidOrUndefined: () => {
-      const token = localStorage.getItem("accessToken");
+  const afterwareLink = new ApolloLink((operation, forward) => {
+    return forward(operation).map((response) => {
+      const context = operation.getContext();
 
-      if (!token) {
-        return true;
-      }
+      console.log("Hello");
 
-      try {
-        const { exp } = jwtDecode(token);
+      const {
+        response: { headers },
+      } = context;
 
-        if (Date.now() >= exp * 1000) {
-          return false;
-        } else {
-          return true;
+      if (headers) {
+        const accessToken = headers.get("access-token");
+
+        if (accessToken) {
+          localStorage.setItem("accessToken", accessToken);
         }
-      } catch {
-        return false;
       }
-    },
-    fetchAccessToken: async () => {
-      return await fetch("http://localhost:5000/refresh_token", {
-        method: "POST",
-        credentials: "include",
-      });
-    },
-    handleFetch: (newToken) => {
-      localStorage.setItem("accessToken", newToken);
-    },
-    handleError: (error) => {
-      console.warn("Your refresh token is invalid");
-      console.log(error);
-    },
+      return response;
+    });
   });
 
   const client = new ApolloClient({
-    link: authLink.concat(refreshLink).concat(httpLink),
-    cache,
-    credentials: "include",
+    link: from([middlewareAuthLink, afterwareLink, httpLink]),
+    cache: new InMemoryCache({}),
   });
 
   return { client };

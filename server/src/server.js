@@ -17,6 +17,7 @@ import confirmationRoute from "./routes/confirmation";
     cors({
       origin: ["http://localhost:3000", "https://studio.apollographql.com"],
       credentials: true,
+      exposedHeaders: ["access-token"],
     })
   );
   app.use(cookieParser());

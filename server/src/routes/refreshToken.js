@@ -2,7 +2,7 @@ import express from "express";
 import { verify } from "jsonwebtoken";
 import { User } from "../models/user";
 import { sendRefreshToken } from "../utils/sendRefreshToken";
-import { createAccessToken, createRefreshToken } from "../utils/token";
+import { createAccessToken, createRefreshToken } from "../utils/createToken";
 
 const router = express.Router();
 

@@ -1,7 +1,8 @@
+import { useQuery } from "@apollo/client";
+
 import CreatePost from "./CreatePost";
 import Post from "./Post";
 import { TIMELINE } from "../config/graphql/queries";
-import { useQuery } from "@apollo/client";
 
 const Feed = () => {
   const { data } = useQuery(TIMELINE, { fetchPolicy: "network-only" });
