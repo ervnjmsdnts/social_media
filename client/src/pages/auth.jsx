@@ -1,10 +1,12 @@
 import { useState } from "react";
+
 import Button from "../components/Button";
 import Login from "../components/auth/Login";
 import Register from "../components/auth/Register";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
+
   return (
     <div className="flex flex-col md:flex-row flex-1 bg-primary h-screen">
       {/* Title */}

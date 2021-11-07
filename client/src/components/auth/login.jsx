@@ -5,9 +5,12 @@ import Input from "../Input";
 import { LOGIN } from "../../config/graphql/mutations";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "../../utils/hooks/useForm";
+import { useAuth } from "../../context/authContext";
 
 const Login = () => {
   const navigate = useNavigate();
+
+  const { login } = useAuth();
 
   const [Login] = useMutation(LOGIN);
 
@@ -17,7 +20,9 @@ const Login = () => {
         variables: values,
       });
 
-      navigate("/", { replace: true });
+      login();
+
+      navigate("", { replace: true });
     } catch (error) {
       console.log(error);
     }

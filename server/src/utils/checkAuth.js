@@ -34,8 +34,6 @@ export const checkAuth = async (context) => {
           throw new Error("Invalid user");
         }
 
-        console.log(user);
-
         context.res.setHeader("access-token", createAccessToken(user));
         return user;
       } catch (error) {
@@ -43,5 +41,5 @@ export const checkAuth = async (context) => {
       }
     }
   }
-  console.log("No User");
+  throw new Error("Not Authenticated");
 };

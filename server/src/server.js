@@ -7,7 +7,6 @@ import cors from "cors";
 
 import typeDefs from "./graphql/typeDefs";
 import resolvers from "./graphql/resolvers";
-import refreshTokenRoute from "./routes/refreshToken";
 import confirmationRoute from "./routes/confirmation";
 
 (async () => {
@@ -21,7 +20,6 @@ import confirmationRoute from "./routes/confirmation";
     })
   );
   app.use(cookieParser());
-  app.use("/refresh_token", refreshTokenRoute);
   app.use("/confirmation", confirmationRoute);
 
   const server = new ApolloServer({

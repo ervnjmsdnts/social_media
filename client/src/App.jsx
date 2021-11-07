@@ -1,23 +1,31 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 import Auth from "./pages/Auth";
 import Confirmation from "./pages/Confirmation";
 import Home from "./pages/Home";
+import { useAuth } from "./context/authContext";
 
 const App = () => {
-  //TODO redirect user to auth page if they are not logged in
-  //TODO redirect user to home page if they are logged in
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("", { replace: true });
+    } else {
+      navigate("auth", { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="" element={<Home />} />
-        <Route path="auth" element={<Auth />} />
-        <Route path="confirmation/:token" element={<Confirmation />} />
-        <Route path="profile/" element={<Home />} />
-        <Route path="profile/:id" element={<Auth />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="" element={<Home />} />
+      <Route path="auth" element={<Auth />} />
+      <Route path="confirmation/:token" element={<Confirmation />} />
+      <Route path="profile/" element={<Home />} />
+      <Route path="profile/:id" element={<Auth />} />
+    </Routes>
   );
 };
 

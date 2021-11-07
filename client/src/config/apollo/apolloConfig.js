@@ -30,8 +30,6 @@ export const ApolloConfig = () => {
     return forward(operation).map((response) => {
       const context = operation.getContext();
 
-      console.log("Hello");
-
       const {
         response: { headers },
       } = context;

@@ -46,7 +46,6 @@ export const postMutations = {
 
       return post;
     } catch (error) {
-      console.log("something went wrong");
       console.log(error);
     }
   },
