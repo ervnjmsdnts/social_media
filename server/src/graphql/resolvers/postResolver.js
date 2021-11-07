@@ -27,7 +27,7 @@ export const postQueries = {
       })
     );
 
-    return userPost.concat(...timelinePost);
+    return userPost.concat(...timelinePost).reverse();
   },
 };
 
