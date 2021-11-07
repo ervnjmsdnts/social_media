@@ -29,7 +29,6 @@ const CreatePost = () => {
     body: "",
   });
 
-  //TODO Reverse post
   return (
     <Section className="flex justify-center">
       <div className="flex justify-center items-center w-full">

@@ -1,15 +1,26 @@
+import { format } from "timeago.js";
+import { Like1, Message2 } from "iconsax-react";
+import { useEffect, useState } from "react";
+import { useMutation } from "@apollo/client";
+
 import ProfilePhoto from "./ProfilePhoto";
 import Section from "./layout/Section";
 import Divider from "./Divider";
 import Icon from "./Icon";
-import { Like1, Message2 } from "iconsax-react";
 import { theme } from "../styles/theme";
-import { format } from "timeago.js";
+import { TIMELINE } from "../config/graphql/queries";
+import { LIKE_POST } from "../config/graphql/mutations";
 
-const Post = ({ body, user, image, createdAt, likeCount, commentCount }) => {
-  //TODO setup is like
-  //TODO make comment component
-  const isLike = false;
+const Post = ({
+  id,
+  body,
+  user,
+  image,
+  createdAt,
+  likeCount,
+  commentCount,
+  likes,
+}) => {
   return (
     <Section className="flex justify-center flex-col">
       <div className="flex">
@@ -34,19 +45,42 @@ const Post = ({ body, user, image, createdAt, likeCount, commentCount }) => {
         )}
       </div>
       <Divider />
-      <div className="flex">
-        <Icon
-          icon={
-            <Like1
-              variant={isLike ? "Bold" : "Outline"}
-              color={theme.primary}
-            />
-          }
-          label={likeCount}
-        />
-        <Icon icon={<Message2 color={theme.primary} />} label={commentCount} />
-      </div>
+      <PostButtons
+        likeCount={likeCount}
+        commentCount={commentCount}
+        id={id}
+        likes={likes}
+        user={user}
+      />
     </Section>
+  );
+};
+
+const PostButtons = ({ id, likes, likeCount, commentCount, user }) => {
+  const [liked, setLiked] = useState(false);
+
+  useEffect(() => {
+    if (user && likes.find((like) => like.username === user.username)) {
+      setLiked(true);
+    } else setLiked(false);
+  }, [user, likes]);
+
+  const [LikePost] = useMutation(LIKE_POST, {
+    variables: { postId: id },
+    refetchQueries: [TIMELINE, "Timeline"],
+  });
+
+  const likeState = user && (liked ? "Bold" : "Outline");
+
+  return (
+    <div className="flex">
+      <Icon
+        icon={<Like1 variant={likeState} color={theme.primary} />}
+        label={likeCount}
+        onClick={LikePost}
+      />
+      <Icon icon={<Message2 color={theme.primary} />} label={commentCount} />
+    </div>
   );
 };
 

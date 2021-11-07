@@ -43,7 +43,20 @@ export const LOGOUT = gql`
 export const CREATE_POST = gql`
   mutation CreatePost($body: String!) {
     createPost(body: $body) {
+      id
       body
+    }
+  }
+`;
+
+export const LIKE_POST = gql`
+  mutation LikePost($postId: ID!) {
+    likePost(postId: $postId) {
+      id
+      likes {
+        id
+        username
+      }
     }
   }
 `;

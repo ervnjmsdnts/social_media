@@ -19,9 +19,6 @@ export const userQueries = {
 };
 
 export const userMutations = {
-  // TODO Edit User Profile
-  // TODO Set access token when refresh token is called
-  // TODO User form validation
   register: async (
     _,
     { firstName, lastName, username, email, password, confirmPassword }

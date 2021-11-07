@@ -27,3 +27,24 @@ export const TIMELINE = gql`
     }
   }
 `;
+
+export const GET_ALL_POSTS = gql`
+  query GetAllPosts {
+    getAllPosts {
+      id
+      body
+      user
+      comments {
+        id
+        body
+        username
+        createdAt
+      }
+      likes {
+        id
+        username
+        createdAt
+      }
+    }
+  }
+`;

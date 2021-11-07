@@ -47,7 +47,17 @@ export const ApolloConfig = () => {
 
   const client = new ApolloClient({
     link: from([middlewareAuthLink, afterwareLink, httpLink]),
-    cache: new InMemoryCache({}),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Post: {
+          fields: {
+            likes: {
+              merge: (existing = [], incoming) => [...existing, ...incoming],
+            },
+          },
+        },
+      },
+    }),
   });
 
   return { client };
