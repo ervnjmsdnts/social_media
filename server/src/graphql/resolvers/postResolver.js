@@ -20,14 +20,16 @@ export const postQueries = {
     const { id } = await checkAuth(context);
 
     const user = await User.findById(id);
-    const userPost = await Post.find({ user: user.id }).populate("user");
+    const userPost = await Post.find({ user: user.id })
+      .populate("user")
+      .sort({ createdAt: -1 });
     const timelinePost = await Promise.all(
       user.following.map((followId) => {
         return Post.find({ user: followId });
       })
     );
 
-    return userPost.concat(...timelinePost).reverse();
+    return userPost.concat(...timelinePost);
   },
 };
 
