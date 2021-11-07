@@ -6,13 +6,12 @@ import { LOGIN } from "../../config/graphql/mutations";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "../../utils/hooks/useForm";
 import { useAuth } from "../../context/authContext";
+import Error from "../Error";
 
 const Login = () => {
   const navigate = useNavigate();
-
   const { login } = useAuth();
-
-  const [Login] = useMutation(LOGIN);
+  const [Login, { error }] = useMutation(LOGIN);
 
   const loginCallBack = async () => {
     try {
@@ -23,15 +22,17 @@ const Login = () => {
       login();
 
       navigate("", { replace: true });
-    } catch (error) {
-      console.log(error);
-    }
+    } catch {}
   };
 
-  const { onChange, onSubmit, values } = useForm(loginCallBack, {
-    username: "",
-    password: "",
-  });
+  const { onChange, onSubmit, values, errors } = useForm(
+    loginCallBack,
+    {
+      username: "",
+      password: "",
+    },
+    error
+  );
 
   return (
     <form
@@ -51,6 +52,7 @@ const Login = () => {
             type="password"
             label="Password:"
             name="password"
+            error
             value={values.password}
             onChange={onChange}
           />
@@ -61,6 +63,7 @@ const Login = () => {
         className="bg-primary text-secondary text-2xl w-[150px] mt-4">
         Enter
       </Button>
+      <Error errors={errors} />
     </form>
   );
 };

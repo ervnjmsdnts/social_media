@@ -1,10 +1,12 @@
 import { genSalt, hash, compare } from "bcrypt";
+import { UserInputError, AuthenticationError } from "apollo-server-express";
 
 import { User } from "../../models/user";
 import { createAccessToken, createRefreshToken } from "../../utils/createToken";
 import { checkAuth } from "../../utils/checkAuth";
 import { sendConfirmationEmail } from "../../services/emailService";
 import { sendRefreshToken } from "../../utils/sendRefreshToken";
+import { loginValidator, registerValidator } from "../../utils/validators";
 
 export const userQueries = {
   getAllUsers: async () => {
@@ -23,14 +25,31 @@ export const userMutations = {
     _,
     { firstName, lastName, username, email, password, confirmPassword }
   ) => {
-    const isUserExist = await User.findOne({ username });
+    const { valid, errors } = registerValidator(
+      firstName,
+      lastName,
+      username,
+      email,
+      password,
+      confirmPassword
+    );
 
-    if (password !== confirmPassword) {
-      throw new Error("Password does not match");
+    if (!valid) {
+      throw new UserInputError("Input Errors", { errors });
     }
 
-    if (isUserExist) {
-      throw new Error("User already exist");
+    const usernameExist = await User.findOne({ username });
+
+    if (usernameExist) {
+      errors.general = "Username already taken";
+      throw new UserInputError("Username already taken", { errors });
+    }
+
+    const emailExist = await User.findOne({ email });
+
+    if (emailExist) {
+      errors.general = "Email already taken";
+      throw new UserInputError("Email already taken", { errors });
     }
 
     try {
@@ -56,20 +75,29 @@ export const userMutations = {
   },
 
   login: async (_, { username, password }, { res }) => {
+    const { valid, errors } = loginValidator(username, password);
+
+    if (!valid) {
+      throw new UserInputError("Input Errors", { errors });
+    }
+
     const user = await User.findOne({ username });
 
     if (!user) {
-      throw new Error("Could not find user");
+      errors.general = "User not found";
+      throw new AuthenticationError("User not found", { errors });
     }
 
     if (!user.confirmed) {
-      throw new Error("Email not confirmed");
+      errors.general = "Email is not confirmed yet";
+      throw new AuthenticationError("Email not confirmed", { errors });
     }
 
     const validPassword = await compare(password, user.password);
 
     if (!validPassword) {
-      throw new Error("User credentials are wrong");
+      errors.general = "Wrong credentials";
+      throw new UserInputError("User credentials are wrong", { errors });
     }
 
     sendRefreshToken(res, createRefreshToken(user));

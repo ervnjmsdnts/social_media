@@ -4,9 +4,10 @@ import Button from "../Button";
 import Input from "../Input";
 import { REGISTER } from "../../config/graphql/mutations";
 import { useForm } from "../../utils/hooks/useForm";
+import Error from "../Error";
 
 const Register = () => {
-  const [Register] = useMutation(REGISTER);
+  const [Register, { error }] = useMutation(REGISTER);
 
   const registerCallBack = async () => {
     try {
@@ -20,14 +21,18 @@ const Register = () => {
     }
   };
 
-  const { onChange, onSubmit, values } = useForm(registerCallBack, {
-    firstName: "",
-    lastName: "",
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const { onChange, onSubmit, values, errors } = useForm(
+    registerCallBack,
+    {
+      firstName: "",
+      lastName: "",
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+    error
+  );
 
   return (
     <form
@@ -85,6 +90,7 @@ const Register = () => {
         className="bg-primary text-secondary text-2xl w-[150px]">
         Enter
       </Button>
+      <Error errors={errors} />
     </form>
   );
 };
