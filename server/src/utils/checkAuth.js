@@ -21,7 +21,6 @@ export const checkAuth = async (context) => {
 
       return user;
     } catch (error) {
-      console.log("There is no user");
       try {
         const { userId } = verify(
           context.req.cookies.jai,

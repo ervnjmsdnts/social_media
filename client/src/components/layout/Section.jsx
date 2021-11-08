@@ -1,11 +1,11 @@
 const Section = ({ children, className }) => {
   return (
-    <div
+    <section
       className={`${
         className || ""
       } h-auto p-8 bg-secondary w-full m-2 md:rounded-xl`}>
       {children}
-    </div>
+    </section>
   );
 };
 

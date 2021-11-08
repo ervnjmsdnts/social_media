@@ -61,4 +61,15 @@ export const loginValidator = (username, password) => {
   };
 };
 
-const postValidator = () => {};
+export const postValidator = ({ body }) => {
+  const errors = {};
+
+  if (body.trim() === "") {
+    errors.body = "Body of post must not be empty";
+  }
+
+  return {
+    errors,
+    valid: Object.keys(errors).length < 1,
+  };
+};

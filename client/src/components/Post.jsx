@@ -1,5 +1,5 @@
 import { format } from "timeago.js";
-import { Like1, Message2 } from "iconsax-react";
+import { Like1, Messages1 } from "iconsax-react";
 import { useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
 
@@ -79,7 +79,7 @@ const PostButtons = ({ id, likes, likeCount, commentCount, user }) => {
         label={likeCount}
         onClick={LikePost}
       />
-      <Icon icon={<Message2 color={theme.primary} />} label={commentCount} />
+      <Icon icon={<Messages1 color={theme.primary} />} label={commentCount} />
     </div>
   );
 };

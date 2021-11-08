@@ -1,6 +1,9 @@
+import { UserInputError } from "apollo-server-express";
+
 import { Post } from "../../models/post";
 import { User } from "../../models/user";
 import { checkAuth } from "../../utils/checkAuth";
+import { postValidator } from "../../utils/validators";
 
 export const postQueries = {
   getAllPosts: async () => {
@@ -35,6 +38,12 @@ export const postQueries = {
 
 export const postMutations = {
   createPost: async (_, { body }, context) => {
+    const { valid, errors } = postValidator;
+
+    if (!valid) {
+      throw new UserInputError("Input Errors", { errors });
+    }
+
     const { id } = await checkAuth(context);
     const user = await User.findById(id);
 
