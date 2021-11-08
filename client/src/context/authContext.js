@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import jwtDecode from "jwt-decode";
 
 const AuthContext = createContext({
   isAuthenticated: false,
@@ -9,16 +10,26 @@ const AuthContext = createContext({
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    const token = localStorage.getItem("accessToken");
+  const token = localStorage.getItem("accessToken");
+  const [user, setUser] = useState({});
+  const [auth, setAuth] = useState(() => {
     return token !== null;
   });
 
-  const login = () => setIsAuthenticated(true);
-  const logout = () => setIsAuthenticated(false);
+  useEffect(() => {
+    if (token) {
+      setUser(jwtDecode(token));
+    }
+  }, [token]);
+
+  const login = () => setAuth(true);
+  const logout = () => {
+    setAuth(false);
+    setUser({});
+  };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ auth, login, logout, user }}>
       {children}
     </AuthContext.Provider>
   );

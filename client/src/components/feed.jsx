@@ -3,9 +3,14 @@ import { useQuery } from "@apollo/client";
 import CreatePost from "./CreatePost";
 import Post from "./Post";
 import { TIMELINE } from "../config/graphql/queries";
+import { useAuth } from "../context/authContext";
 
 const Feed = () => {
   const { data } = useQuery(TIMELINE);
+
+  const { user } = useAuth();
+
+  console.log(user.userId);
 
   return (
     <div className="flex flex-col items-center w-full">

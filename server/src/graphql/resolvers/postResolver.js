@@ -38,7 +38,7 @@ export const postQueries = {
 
 export const postMutations = {
   createPost: async (_, { body }, context) => {
-    const { valid, errors } = postValidator;
+    const { valid, errors } = postValidator(body);
 
     if (!valid) {
       throw new UserInputError("Input Errors", { errors });

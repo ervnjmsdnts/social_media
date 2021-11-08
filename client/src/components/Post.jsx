@@ -10,6 +10,7 @@ import Icon from "./Icon";
 import { theme } from "../styles/theme";
 import { TIMELINE } from "../config/graphql/queries";
 import { LIKE_POST } from "../config/graphql/mutations";
+import ProfileLink from "./ProfileLink";
 
 const Post = ({
   id,
@@ -24,13 +25,17 @@ const Post = ({
   return (
     <Section className="flex justify-center flex-col">
       <div className="flex">
-        <ProfilePhoto size={40} className="h-16 w-16 mr-2" />
+        <ProfileLink id={user.id}>
+          <ProfilePhoto size={40} className="h-16 w-16 mr-2" />
+        </ProfileLink>
         <div className="flex flex-col justify-center text-primary">
           <div>
-            <span className="font-bold mr-2 text-lg">
+            <ProfileLink id={user.id} className="font-bold mr-2 text-lg">
               {user.firstName} {user.lastName}
-            </span>
-            <span className="font-semibold text-lg">@{user.username}</span>
+            </ProfileLink>
+            <ProfileLink id={user.id} className="font-semibold text-lg">
+              @{user.username}
+            </ProfileLink>
           </div>
           <span>{format(createdAt)}</span>
         </div>

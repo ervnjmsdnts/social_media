@@ -10,9 +10,10 @@ import Button from "./Button";
 import { useForm } from "../utils/hooks/useForm";
 import { CREATE_POST } from "../config/graphql/mutations";
 import { TIMELINE } from "../config/graphql/queries";
+import ProfileLink from "./ProfileLink";
 
 const CreatePost = () => {
-  const [CreatePost] = useMutation(CREATE_POST);
+  const [CreatePost, { error }] = useMutation(CREATE_POST);
 
   const createFormCallBack = async () => {
     try {
@@ -25,14 +26,21 @@ const CreatePost = () => {
     }
   };
 
-  const { onSubmit, onChange, values } = useForm(createFormCallBack, {
-    body: "",
-  });
+  //TODO Put errors field here
+  const { onSubmit, onChange, values } = useForm(
+    createFormCallBack,
+    {
+      body: "",
+    },
+    error
+  );
 
   return (
     <Section className="flex justify-center">
       <div className="flex justify-center items-center w-full">
-        <ProfilePhoto size={40} className="h-14 md:h-20 w-14 md:w-20 mr-2" />
+        <ProfileLink>
+          <ProfilePhoto size={40} className="h-14 md:h-20 w-14 md:w-20 mr-2" />
+        </ProfileLink>
         <form className="relative flex flex-col w-3/4" onSubmit={onSubmit}>
           <div className="flex w-full">
             <Input

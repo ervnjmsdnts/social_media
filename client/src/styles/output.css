@@ -894,8 +894,8 @@ video {
 		position: sticky;
 	}
 
-	.md\:-bottom-11 {
-		bottom: -2.75rem;
+	.md\:-bottom-10 {
+		bottom: -2.5rem;
 	}
 
 	.md\:bottom-1 {
@@ -908,10 +908,6 @@ video {
 
 	.md\:top-0 {
 		top: 0px;
-	}
-
-	.md\:-bottom-10 {
-		bottom: -2.5rem;
 	}
 
 	.md\:m-0 {

@@ -61,7 +61,7 @@ export const loginValidator = (username, password) => {
   };
 };
 
-export const postValidator = ({ body }) => {
+export const postValidator = (body) => {
   const errors = {};
 
   if (body.trim() === "") {

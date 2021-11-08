@@ -21,7 +21,7 @@ const Login = () => {
 
       login();
 
-      navigate("", { replace: true });
+      navigate("/", { replace: true });
     } catch {}
   };
 
