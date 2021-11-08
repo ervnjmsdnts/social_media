@@ -9,7 +9,7 @@ export const registerValidator = (
   const errors = {};
   const emailRegEx =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  const passwordRegEx = /^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{8,}$/;
+  const passwordRegEx = /^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d).*$/;
 
   if (firstName.trim() === "") {
     errors.firstName = "First Name must not be empty";

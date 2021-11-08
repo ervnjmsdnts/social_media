@@ -3,6 +3,7 @@ import jwtDecode from "jwt-decode";
 
 const AuthContext = createContext({
   isAuthenticated: false,
+  user: {},
   login: () => {},
   logout: () => {},
 });

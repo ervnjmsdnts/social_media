@@ -57,13 +57,15 @@ const Login = () => {
             onChange={onChange}
           />
         </div>
+        <div className="flex flex-col items-center">
+          <Button
+            type="submit"
+            className="bg-primary text-secondary text-2xl w-[150px] mt-4">
+            Enter
+          </Button>
+          <Error errors={errors} />
+        </div>
       </div>
-      <Button
-        type="submit"
-        className="bg-primary text-secondary text-2xl w-[150px] mt-4">
-        Enter
-      </Button>
-      <Error errors={errors} />
     </form>
   );
 };
