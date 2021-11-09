@@ -175,7 +175,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
                 </Box>
               </HStack>
             </MenuButton>
-            <MenuList bg="primary" color="secondary">
+            <MenuList color="secondary">
               <MenuItem>Profile</MenuItem>
               <MenuDivider />
               <MenuItem onClick={() => navigate("/auth", { replace: true })}>
