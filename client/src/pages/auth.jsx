@@ -12,21 +12,21 @@ const Auth = () => {
       {/* Title */}
       <div className="flex flex-col md:flex-grow md:justify-center items-center">
         <div>
-          <div className="w-[400px] md:w-[700px] mt-4 md:mt-0">
-            <h1 className="text-6xl md:text-8xl mb-24 text-secondary text-center md:text-left">
+          <div className="w-auto md:w-[700px] mt-4 md:mt-0">
+            <h1 className="text-4xl md:text-8xl mb-4 md:mb-24 text-secondary text-center md:text-left">
               Social Media App
             </h1>
           </div>
           <div className="md:ml-8 flex md:flex-col items-center justify-center md:items-start">
             <Button
-              className={`text-primary text-3xl w-[200px] md:w-[300px] md:mb-8 m-2 md:m-0 ${
+              className={`text-primary text-xl md:text-3xl w-1/3 md:w-[300px] md:mb-8 m-2 md:m-0 ${
                 isLogin ? "bg-white" : "bg-secondary"
               }`}
               onClick={() => setIsLogin(true)}>
               Login
             </Button>
             <Button
-              className={`text-primary text-3xl w-[200px] md:w-[300px] ${
+              className={`text-primary text-xl md:text-3xl w-1/3 md:w-[300px] ${
                 isLogin ? "bg-secondary" : "bg-white"
               }`}
               onClick={() => setIsLogin(false)}>

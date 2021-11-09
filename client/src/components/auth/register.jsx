@@ -39,7 +39,7 @@ const Register = () => {
       className="bg-secondary w-full rounded-3xl flex flex-col items-center"
       onSubmit={onSubmit}>
       <h2 className="text-primary text-4xl font-bold my-8">Register</h2>
-      <div className="w-full overflow-y-scroll max-h-[400px] md:max-h-full md:overflow-hidden flex flex-col">
+      <div className="w-full overflow-y-scroll max-h-[32rem] md:max-h-full md:overflow-hidden flex flex-col">
         <div className="m-8 flex flex-col">
           <Input
             type="text"
