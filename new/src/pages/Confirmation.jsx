@@ -1,7 +1,8 @@
+import { Button } from "@chakra-ui/button";
+import { Heading, Text, VStack } from "@chakra-ui/layout";
 import { useEffect, useState } from "react";
+import { FiArrowLeftCircle } from "react-icons/fi";
 import { useNavigate, useParams } from "react-router-dom";
-
-import Button from "../components/Button";
 
 const Confirmation = () => {
   const { token } = useParams();
@@ -22,23 +23,25 @@ const Confirmation = () => {
     getToken();
   }, [token]);
 
-  const handleClick = () => {
-    navigate("/auth", { replace: true });
-  };
+  const onClick = () => navigate("/auth", { replace: true });
 
   return (
-    <div className="flex justify-center items-center flex-col h-screen bg-primary">
-      <h1 className="text-secondary text-4xl text-center md:text-7xl font-semibold">
+    <VStack
+      spacing="10"
+      justifyContent="center"
+      alignItems="center"
+      w="full"
+      h="100vh">
+      <Heading textAlign="center">
         {isValidToken
           ? "Your Email Address has been Confirmed"
-          : "Email Address is Invalid"}
-      </h1>
-      <Button
-        className="text-primary bg-secondary mt-8 text-3xl w-[300px]"
-        onClick={handleClick}>
-        Go Back
+          : "Your Email Address is Invalid"}
+      </Heading>
+      <Button onClick={onClick}>
+        <FiArrowLeftCircle fontSize="24" />
+        <Text ml="2">Go Back</Text>
       </Button>
-    </div>
+    </VStack>
   );
 };
 
