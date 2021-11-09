@@ -1,10 +1,23 @@
+import { useMutation } from "@apollo/client";
 import { Button } from "@chakra-ui/button";
+import { REGISTER } from "../config/graphql/mutations";
 import { useForm } from "../utils/hooks/useForm";
 import CustomInput from "./CustomInput";
 
 const RegisterForm = () => {
-  const registerCallBack = () => {
-    console.log("Hello");
+  const [Register] = useMutation(REGISTER);
+
+  const registerCallBack = async () => {
+    try {
+      const response = await Register({ variables: values });
+
+      if (response && response.data) {
+        //TODO make a pop up
+        console.log("User is registered");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const { onChange, onSubmit, values } = useForm(registerCallBack, {

@@ -1,3 +1,4 @@
+import { useMutation } from "@apollo/client";
 import { Box, Divider, Flex, HStack, Spacer, Text } from "@chakra-ui/layout";
 import {
   Avatar,
@@ -8,12 +9,36 @@ import {
   MenuItem,
   Button,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiTrash, FiEdit, FiMoreVertical } from "react-icons/fi";
 import { RiThumbUpLine, RiThumbUpFill } from "react-icons/ri";
+import { format } from "timeago.js";
+import { LIKE_POST } from "../config/graphql/mutations";
+import { TIMELINE } from "../config/graphql/queries";
 
-const Post = () => {
-  const [isLike, setIsLike] = useState(false);
+const Post = ({
+  id,
+  body,
+  user,
+  image,
+  createdAt,
+  likes,
+  likeCount,
+  commentCount,
+}) => {
+  const [liked, setLiked] = useState(false);
+
+  useEffect(() => {
+    if (user && likes.find((like) => like.username === user.username)) {
+      setLiked(true);
+    } else setLiked(false);
+  }, [user, likes]);
+
+  const [LikePost] = useMutation(LIKE_POST, {
+    variables: { postId: id },
+    refetchQueries: [TIMELINE, "Timeline"],
+  });
+
   return (
     <Flex
       bgColor="primary"
@@ -28,12 +53,14 @@ const Post = () => {
           <Box>
             <HStack>
               <Text fontWeight="bold" fontSize={{ base: "sm", md: "md" }}>
-                Earvin James Dantes
+                {user.firstName} {user.lastName}
               </Text>
-              <Text display={{ base: "none", md: "block" }}>@Oduum</Text>
+              <Text display={{ base: "none", md: "block" }}>
+                @{user.username}
+              </Text>
             </HStack>
             <Text fontSize="sm" fontWeight="semibold" color="gray.500">
-              1hr ago
+              {format(createdAt)}
             </Text>
           </Box>
         </HStack>
@@ -47,18 +74,18 @@ const Post = () => {
         </Menu>
       </Flex>
       <Divider my="4" />
-      <Text>Hello I am text</Text>
+      <Text>{body}</Text>
       <Divider my="4" />
       <HStack>
-        <Button>
-          {isLike ? (
+        <Button onClick={LikePost}>
+          {liked ? (
             <RiThumbUpFill fontSize="24" />
           ) : (
             <RiThumbUpLine fontSize="24" />
           )}
-          <Text ml="2">0</Text>
+          <Text ml="2">{likeCount}</Text>
         </Button>
-        <Text>Comment 0</Text>
+        <Text>Comment {commentCount}</Text>
       </HStack>
     </Flex>
   );

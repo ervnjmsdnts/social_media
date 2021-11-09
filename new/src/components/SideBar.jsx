@@ -21,6 +21,10 @@ import {
 import { useNavigate } from "react-router-dom";
 import { FaCommentDots, FaNewspaper } from "react-icons/fa";
 import { FiBell, FiChevronDown, FiMenu } from "react-icons/fi";
+import { useApolloClient, useMutation } from "@apollo/client";
+
+import { LOGOUT } from "../config/graphql/mutations";
+import { useAuth } from "../context/authContext";
 
 const LinkItems = [
   { name: "Messages", icon: FaCommentDots },
@@ -115,6 +119,17 @@ const NavItem = ({ icon, children, ...rest }) => {
 
 const MobileNav = ({ onOpen, ...rest }) => {
   const navigate = useNavigate();
+  const client = useApolloClient();
+  const [Logout] = useMutation(LOGOUT);
+  const { logout } = useAuth();
+
+  const onClick = async () => {
+    await Logout();
+    localStorage.removeItem("accessToken");
+    await client.clearStore();
+    logout();
+    navigate("/auth", { replace: true });
+  };
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -178,9 +193,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
             <MenuList color="secondary">
               <MenuItem>Profile</MenuItem>
               <MenuDivider />
-              <MenuItem onClick={() => navigate("/auth", { replace: true })}>
-                Sign out
-              </MenuItem>
+              <MenuItem onClick={onClick}>Sign Out</MenuItem>
             </MenuList>
           </Menu>
         </Flex>

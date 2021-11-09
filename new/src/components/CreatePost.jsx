@@ -4,14 +4,37 @@ import Icon from "@chakra-ui/icon";
 import { Input } from "@chakra-ui/input";
 import { Box, Divider, Flex, Grid, Text } from "@chakra-ui/layout";
 import { FaCamera, FaVideo } from "react-icons/fa";
+import { useMutation } from "@apollo/client";
+
+import { useForm } from "../utils/hooks/useForm";
+import { TIMELINE } from "../config/graphql/queries";
+import { CREATE_POST } from "../config/graphql/mutations";
 
 const CreatePost = () => {
+  const [CreatePost] = useMutation(CREATE_POST);
+  const createPostCallBack = async () => {
+    try {
+      await CreatePost({
+        variables: values,
+        refetchQueries: [TIMELINE, "Timeline"],
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const { onChange, onSubmit, values } = useForm(createPostCallBack, {
+    body: "",
+  });
+
   return (
     <Flex
       mb="4"
       bgColor="primary"
       justifyContent="center"
       direction="column"
+      as="form"
+      onSubmit={onSubmit}
       w="full"
       p="4"
       rounded="lg">
@@ -26,8 +49,11 @@ const CreatePost = () => {
           borderColor="secondary"
           mr="2"
           placeholder="What are you thinking about?"
+          name="body"
+          value={values.body}
+          onChange={onChange}
         />
-        <Button>Send</Button>
+        <Button type="submit">Send</Button>
       </Flex>
       <Divider my="4" />
       <Grid templateColumns="repeat(2, 1fr)">
