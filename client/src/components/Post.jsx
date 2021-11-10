@@ -15,6 +15,7 @@ import { RiThumbUpLine, RiThumbUpFill } from "react-icons/ri";
 import { format } from "timeago.js";
 import { LIKE_POST } from "../config/graphql/mutations";
 import { TIMELINE } from "../config/graphql/queries";
+import ProfileLink from "./ProfileLink";
 
 const Post = ({
   id,
@@ -49,15 +50,19 @@ const Post = ({
       rounded="lg">
       <Flex alignItems="center" w="full">
         <HStack>
-          <Avatar mr="4" />
+          <ProfileLink>
+            <Avatar />
+          </ProfileLink>
           <Box>
             <HStack>
-              <Text fontWeight="bold" fontSize={{ base: "sm", md: "md" }}>
+              <ProfileLink
+                fontWeight="bold"
+                fontSize={{ base: "sm", md: "md" }}>
                 {user.firstName} {user.lastName}
-              </Text>
-              <Text display={{ base: "none", md: "block" }}>
+              </ProfileLink>
+              <ProfileLink display={{ base: "none", md: "block" }}>
                 @{user.username}
-              </Text>
+              </ProfileLink>
             </HStack>
             <Text fontSize="sm" fontWeight="semibold" color="gray.500">
               {format(createdAt)}
