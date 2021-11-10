@@ -6,7 +6,7 @@ import Post from "./Post";
 import { TIMELINE } from "../config/graphql/queries";
 
 const NewsFeed = () => {
-  const { data } = useQuery(TIMELINE);
+  const { data } = useQuery(TIMELINE, { fetchPolicy: "network-only" });
 
   return (
     <Flex alignItems="center" direction="column" maxW="container.lg" w="full">

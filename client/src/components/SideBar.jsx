@@ -123,8 +123,6 @@ const MobileNav = ({ onOpen, ...rest }) => {
   const [Logout] = useMutation(LOGOUT);
   const { logout, user } = useAuth();
 
-  console.log(user);
-
   const onClick = async () => {
     await Logout();
     localStorage.removeItem("accessToken");

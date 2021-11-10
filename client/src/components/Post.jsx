@@ -1,5 +1,13 @@
 import { useMutation } from "@apollo/client";
-import { Box, Divider, Flex, HStack, Spacer, Text } from "@chakra-ui/layout";
+import {
+  Box,
+  Divider,
+  Flex,
+  HStack,
+  Spacer,
+  Text,
+  VStack,
+} from "@chakra-ui/layout";
 import {
   Avatar,
   Menu,
@@ -7,15 +15,36 @@ import {
   IconButton,
   MenuList,
   MenuItem,
+  Input,
   Button,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { FiTrash, FiEdit, FiMoreVertical } from "react-icons/fi";
-import { RiThumbUpLine, RiThumbUpFill } from "react-icons/ri";
+import { AiOutlineComment } from "react-icons/ai";
+import { MdOutlineThumbUpOffAlt, MdThumbUpAlt } from "react-icons/md";
 import { format } from "timeago.js";
 import { LIKE_POST } from "../config/graphql/mutations";
 import { TIMELINE } from "../config/graphql/queries";
 import ProfileLink from "./ProfileLink";
+
+const Comment = () => {
+  return (
+    <VStack mb="4" alignItems="start">
+      <HStack w="full">
+        <Avatar size="sm" />
+        <Box
+          w="auto"
+          maxW="full"
+          bgColor="whiteAlpha.200"
+          p="2"
+          color="secondary"
+          rounded="md">
+          <Text>This is a comment</Text>
+        </Box>
+      </HStack>
+    </VStack>
+  );
+};
 
 const Post = ({
   id,
@@ -84,13 +113,23 @@ const Post = ({
       <HStack>
         <Button onClick={LikePost}>
           {liked ? (
-            <RiThumbUpFill fontSize="24" />
+            <MdThumbUpAlt fontSize="24" />
           ) : (
-            <RiThumbUpLine fontSize="24" />
+            <MdOutlineThumbUpOffAlt fontSize="24" />
           )}
           <Text ml="2">{likeCount}</Text>
         </Button>
-        <Text>Comment {commentCount}</Text>
+        <Button>
+          <AiOutlineComment fontSize="24" />
+          <Text ml="2">{commentCount}</Text>
+        </Button>
+      </HStack>
+      <Divider my="4" />
+      <Comment />
+      <HStack>
+        <Avatar size="sm" />
+        <Input placeholder="Write a comment" size="sm" rounded="md" />
+        <Button size="sm">Send</Button>
       </HStack>
     </Flex>
   );

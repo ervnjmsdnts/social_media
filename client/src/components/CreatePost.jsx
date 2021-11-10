@@ -3,7 +3,7 @@ import { Button } from "@chakra-ui/button";
 import Icon from "@chakra-ui/icon";
 import { Input } from "@chakra-ui/input";
 import { Box, Divider, Flex, Grid, Text } from "@chakra-ui/layout";
-import { FaCamera, FaVideo } from "react-icons/fa";
+import { ImFilePicture, ImFileVideo } from "react-icons/im";
 import { useMutation } from "@apollo/client";
 
 import { useForm } from "../utils/hooks/useForm";
@@ -60,8 +60,8 @@ const CreatePost = () => {
       </Flex>
       <Divider my="4" />
       <Grid templateColumns="repeat(2, 1fr)">
-        <FileButton icons={FaCamera}>Photo</FileButton>
-        <FileButton icons={FaVideo}>Video</FileButton>
+        <FileButton icons={ImFilePicture}>Photo</FileButton>
+        <FileButton icons={ImFileVideo}>Video</FileButton>
       </Grid>
     </Flex>
   );
