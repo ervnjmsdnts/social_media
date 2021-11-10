@@ -1,18 +1,25 @@
 import { useMutation } from "@apollo/client";
 import { Button } from "@chakra-ui/button";
+import { useToast } from "@chakra-ui/toast";
 import { REGISTER } from "../config/graphql/mutations";
 import { useForm } from "../utils/hooks/useForm";
 import CustomInput from "./CustomInput";
 
 const RegisterForm = () => {
   const [Register] = useMutation(REGISTER);
+  const toast = useToast();
 
   const registerCallBack = async () => {
     try {
       const response = await Register({ variables: values });
 
       if (response && response.data) {
-        //TODO make a pop up
+        toast({
+          description: "A confirmation email has been sent to your account.",
+          status: "info",
+          duration: 3000,
+          isClosable: true,
+        });
         console.log("User is registered");
       }
     } catch (error) {

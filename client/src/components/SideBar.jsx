@@ -121,7 +121,9 @@ const MobileNav = ({ onOpen, ...rest }) => {
   const navigate = useNavigate();
   const client = useApolloClient();
   const [Logout] = useMutation(LOGOUT);
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
+
+  console.log(user);
 
   const onClick = async () => {
     await Logout();
@@ -182,8 +184,8 @@ const MobileNav = ({ onOpen, ...rest }) => {
                   spacing="1px"
                   color="secondary"
                   ml="2">
-                  <Text fontSize="sm">Earvin James Dantes</Text>
-                  <Text fontSize="xs">@Oduum</Text>
+                  <Text fontSize="sm">{user.givenName}</Text>
+                  <Text fontSize="xs">@{user.username}</Text>
                 </VStack>
                 <Box display={{ base: "none", md: "flex" }}>
                   <FiChevronDown />

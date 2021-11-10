@@ -16,11 +16,11 @@ export const useForm = (callback, initialState = {}, error) => {
     }
   };
 
-  //   useEffect(() => {
-  //     if (error) {
-  //       setErrors(error.graphQLErrors[0].extensions.errors);
-  //     }
-  //   }, [error]);
+  useEffect(() => {
+    if (error) {
+      setErrors(error.graphQLErrors[0].extensions.errors);
+    }
+  }, [error]);
 
   return {
     onChange,

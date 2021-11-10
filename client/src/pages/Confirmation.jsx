@@ -34,8 +34,8 @@ const Confirmation = () => {
       h="100vh">
       <Heading textAlign="center">
         {isValidToken
-          ? "Your Email Address has been Confirmed"
-          : "Your Email Address is Invalid"}
+          ? "Your Email Address is Invalid"
+          : "Your Email Address has been Confirmed"}
       </Heading>
       <Button onClick={onClick}>
         <FiArrowLeftCircle fontSize="24" />
