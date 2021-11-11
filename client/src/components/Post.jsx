@@ -58,10 +58,8 @@ const CommentInput = ({ postId }) => {
         variables: { postId, body: values.body },
         refetchQueries: [TIMELINE, "Timeline"],
       });
-      console.log("Comment has been sent");
     } catch (error) {
       console.log(error);
-      console.log("Comment not sent");
     }
   };
 
@@ -77,7 +75,7 @@ const CommentInput = ({ postId }) => {
         size="sm"
         rounded="md"
       />
-      <Button size="sm" onClick={() => {}}>
+      <Button size="sm" type="submit">
         Send
       </Button>
     </HStack>
