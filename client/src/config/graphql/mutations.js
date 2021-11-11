@@ -60,3 +60,24 @@ export const LIKE_POST = gql`
     }
   }
 `;
+
+export const CREATE_COMMENT = gql`
+  mutation CreateComment($postId: ID!, $body: String!) {
+    createComment(postId: $postId, body: $body) {
+      id
+      body
+      user
+      createdAt
+    }
+  }
+`;
+
+export const DELETE_COMMENT = gql`
+  mutation DeleteComment($postId: ID!, $commentId: ID!) {
+    deleteComment(postId: $postId, commentId: $commentId) {
+      id
+      body
+      user
+    }
+  }
+`;

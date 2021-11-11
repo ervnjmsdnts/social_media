@@ -21,6 +21,7 @@ const NewsFeed = () => {
             user={user}
             createdAt={createdAt}
             likes={likes}
+            comments={comments}
             likeCount={likes.length}
             commentCount={comments.length}
           />

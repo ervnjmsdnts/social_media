@@ -23,13 +23,14 @@ import { FiTrash, FiEdit, FiMoreVertical } from "react-icons/fi";
 import { AiOutlineComment } from "react-icons/ai";
 import { MdOutlineThumbUpOffAlt, MdThumbUpAlt } from "react-icons/md";
 import { format } from "timeago.js";
-import { LIKE_POST } from "../config/graphql/mutations";
+import { CREATE_COMMENT, LIKE_POST } from "../config/graphql/mutations";
 import { TIMELINE } from "../config/graphql/queries";
 import ProfileLink from "./ProfileLink";
+import { useForm } from "../utils/hooks/useForm";
 
-const Comment = () => {
+const Comment = ({ postId, comment }) => {
   return (
-    <VStack mb="4" alignItems="start">
+    <VStack mb="4" alignItems="start" spacing="0">
       <HStack w="full">
         <Avatar size="sm" />
         <Box
@@ -39,10 +40,47 @@ const Comment = () => {
           p="2"
           color="secondary"
           rounded="md">
-          <Text>This is a comment</Text>
+          <Text>{comment.body}</Text>
         </Box>
       </HStack>
+      <Text fontSize="sm" color="gray.500" pl="10">
+        {format(comment.createdAt)}
+      </Text>
     </VStack>
+  );
+};
+
+const CommentInput = ({ postId }) => {
+  const [CreateComment] = useMutation(CREATE_COMMENT);
+  const commentCallBack = async () => {
+    try {
+      await CreateComment({
+        variables: { postId, body: values.body },
+        refetchQueries: [TIMELINE, "Timeline"],
+      });
+      console.log("Comment has been sent");
+    } catch (error) {
+      console.log(error);
+      console.log("Comment not sent");
+    }
+  };
+
+  const { onSubmit, onChange, values } = useForm(commentCallBack, { body: "" });
+  return (
+    <HStack as="form" onSubmit={onSubmit}>
+      <Avatar size="sm" />
+      <Input
+        placeholder="Write a comment"
+        name="body"
+        value={values.body}
+        onChange={onChange}
+        size="sm"
+        rounded="md"
+      />
+      <Button size="sm" onClick={() => {}}>
+        Send
+      </Button>
+    </HStack>
   );
 };
 
@@ -53,6 +91,7 @@ const Post = ({
   image,
   createdAt,
   likes,
+  comments,
   likeCount,
   commentCount,
 }) => {
@@ -125,12 +164,10 @@ const Post = ({
         </Button>
       </HStack>
       <Divider my="4" />
-      <Comment />
-      <HStack>
-        <Avatar size="sm" />
-        <Input placeholder="Write a comment" size="sm" rounded="md" />
-        <Button size="sm">Send</Button>
-      </HStack>
+      {comments.map((comment) => (
+        <Comment key={comment.id} postId={id} comment={comment} />
+      ))}
+      <CommentInput postId={id} />
     </Flex>
   );
 };
