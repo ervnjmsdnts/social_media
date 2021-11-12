@@ -27,6 +27,7 @@ import { format } from "timeago.js";
 import {
   CREATE_COMMENT,
   DELETE_COMMENT,
+  DELETE_POST,
   LIKE_POST,
 } from "../config/graphql/mutations";
 import { GET_USER_POST, TIMELINE } from "../config/graphql/queries";
@@ -126,6 +127,11 @@ const Post = ({
     } else setLiked(false);
   }, [currentUser, likes]);
 
+  const [DeletePost] = useMutation(DELETE_POST, {
+    variables: { postId: id },
+    refetchQueries: [TIMELINE, GET_USER_POST],
+  });
+
   const [LikePost] = useMutation(LIKE_POST, {
     variables: { postId: id },
     refetchQueries: [TIMELINE, GET_USER_POST],
@@ -168,7 +174,9 @@ const Post = ({
           <Menu>
             <MenuButton as={IconButton} icon={<FiMoreVertical />} />
             <MenuList color="secondary">
-              <MenuItem icon={<FiTrash />}>Delete Post</MenuItem>
+              <MenuItem onClick={DeletePost} icon={<FiTrash />}>
+                Delete Post
+              </MenuItem>
             </MenuList>
           </Menu>
         )}
