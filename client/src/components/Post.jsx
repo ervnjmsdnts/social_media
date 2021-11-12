@@ -24,16 +24,26 @@ import { AiOutlineComment } from "react-icons/ai";
 import { MdOutlineThumbUpOffAlt, MdThumbUpAlt } from "react-icons/md";
 import { format } from "timeago.js";
 
-import { CREATE_COMMENT, LIKE_POST } from "../config/graphql/mutations";
+import {
+  CREATE_COMMENT,
+  DELETE_COMMENT,
+  LIKE_POST,
+} from "../config/graphql/mutations";
 import { GET_USER_POST, TIMELINE } from "../config/graphql/queries";
 import ProfileLink from "./ProfileLink";
 import { useForm } from "../utils/hooks/useForm";
 import { useAuth } from "../context/authContext";
 
 const Comment = ({ postId, comment }) => {
+  const { user: currentUser } = useAuth();
+  const [DeleteComment] = useMutation(DELETE_COMMENT, {
+    variables: { postId, commentId: comment.id },
+    refetchQueries: [TIMELINE, GET_USER_POST],
+  });
+
   return (
     <VStack mb="4" alignItems="start" spacing="0">
-      <HStack w="full">
+      <HStack w="full" role="group">
         <Avatar size="sm" />
         <Box
           w="auto"
@@ -44,6 +54,15 @@ const Comment = ({ postId, comment }) => {
           rounded="md">
           <Text>{comment.body}</Text>
         </Box>
+        {currentUser.username === comment.username && (
+          <IconButton
+            onClick={DeleteComment}
+            size="sm"
+            display="none"
+            _groupHover={{ display: "flex" }}
+            icon={<FiTrash />}
+          />
+        )}
       </HStack>
       <Text fontSize="sm" color="gray.500" pl="10">
         {format(comment.createdAt)}

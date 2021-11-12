@@ -18,7 +18,7 @@ import {
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link as RouteLink } from "react-router-dom";
 import { FaCommentDots, FaNewspaper } from "react-icons/fa";
 import { FiBell, FiChevronDown, FiMenu, FiSearch } from "react-icons/fi";
 import { useApolloClient, useMutation } from "@apollo/client";
@@ -27,8 +27,8 @@ import { LOGOUT } from "../config/graphql/mutations";
 import { useAuth } from "../context/authContext";
 
 const LinkItems = [
-  { name: "Messages", icon: FaCommentDots },
-  { name: "News Feed", icon: FaNewspaper },
+  { name: "Messages", icon: FaCommentDots, to: "/messages" },
+  { name: "News Feed", icon: FaNewspaper, to: "/" },
 ];
 
 const SideBar = ({ children }) => {
@@ -80,7 +80,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
+        <NavItem key={link.name} icon={link.icon} to={link.to}>
           {link.name}
         </NavItem>
       ))}
@@ -88,9 +88,9 @@ const SidebarContent = ({ onClose, ...rest }) => {
   );
 };
 
-const NavItem = ({ icon, children, ...rest }) => {
+const NavItem = ({ icon, children, to, ...rest }) => {
   return (
-    <Link href="#" style={{ textDecoration: "none" }}>
+    <Link as={RouteLink} to={to} style={{ textDecoration: "none" }}>
       <Flex
         align="center"
         p="4"
@@ -192,7 +192,12 @@ const MobileNav = ({ onOpen, ...rest }) => {
               </HStack>
             </MenuButton>
             <MenuList color="secondary">
-              <MenuItem>Profile</MenuItem>
+              <Link
+                style={{ textDecoration: "none" }}
+                as={RouteLink}
+                to={`/profile/${user.username}`}>
+                <MenuItem>Profile</MenuItem>
+              </Link>
               <MenuDivider />
               <MenuItem onClick={onClick}>Sign Out</MenuItem>
             </MenuList>
