@@ -7,17 +7,19 @@ import { ImFilePicture, ImFileVideo } from "react-icons/im";
 import { useMutation } from "@apollo/client";
 
 import { useForm } from "../utils/hooks/useForm";
-import { TIMELINE } from "../config/graphql/queries";
+import { GET_USER_POST, TIMELINE } from "../config/graphql/queries";
 import { CREATE_POST } from "../config/graphql/mutations";
 import ProfileLink from "./ProfileLink";
+import { useAuth } from "../context/authContext";
 
 const CreatePost = () => {
   const [CreatePost] = useMutation(CREATE_POST);
+  const { user } = useAuth();
   const createPostCallBack = async () => {
     try {
       await CreatePost({
         variables: values,
-        refetchQueries: [TIMELINE, "Timeline"],
+        refetchQueries: [TIMELINE, GET_USER_POST],
       });
     } catch (error) {
       console.log(error);
@@ -40,7 +42,7 @@ const CreatePost = () => {
       p="4"
       rounded="lg">
       <Flex alignItems="center" w="full">
-        <ProfileLink>
+        <ProfileLink username={user.username}>
           <Avatar
             size="md"
             mr="4"

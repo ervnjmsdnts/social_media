@@ -11,10 +11,10 @@ export const postQueries = {
     return posts;
   },
 
-  getUserPost: async (_, __, context) => {
-    const { id } = await checkAuth(context);
+  getUserPost: async (_, { username }) => {
+    const user = await User.findOne({ username });
 
-    const post = await Post.find({ user: id });
+    const post = await Post.find({ user: user.id }).sort({ createdAt: -1 });
 
     return post;
   },
@@ -28,11 +28,17 @@ export const postQueries = {
       .sort({ createdAt: -1 });
     const timelinePost = await Promise.all(
       user.following.map((followId) => {
-        return Post.find({ user: followId });
+        return Post.find({ user: followId })
+          .populate("user")
+          .sort({ createdAt: -1 });
       })
     );
 
-    return userPost.concat(...timelinePost);
+    const timeline = userPost.concat(...timelinePost);
+
+    const sortedTimeline = timeline.sort((a, b) => b.createdAt - a.createdAt);
+
+    return sortedTimeline;
   },
 };
 

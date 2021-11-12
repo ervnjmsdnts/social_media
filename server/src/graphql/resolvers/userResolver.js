@@ -14,8 +14,8 @@ export const userQueries = {
     return user;
   },
 
-  getUser: async (_, { userId }) => {
-    const user = await User.findById(userId);
+  getUser: async (_, { username }) => {
+    const user = await User.findOne({ username });
     return user;
   },
 };

@@ -20,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { FaCommentDots, FaNewspaper } from "react-icons/fa";
-import { FiBell, FiChevronDown, FiMenu } from "react-icons/fi";
+import { FiBell, FiChevronDown, FiMenu, FiSearch } from "react-icons/fi";
 import { useApolloClient, useMutation } from "@apollo/client";
 
 import { LOGOUT } from "../config/graphql/mutations";
@@ -157,6 +157,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
       </Text>
 
       <HStack spacing={{ base: "0", md: "6" }}>
+        <IconButton size="lg" variant="ghost" icon={<FiSearch />} />
         <IconButton
           size="lg"
           variant="ghost"

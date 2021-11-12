@@ -23,10 +23,12 @@ import { FiTrash, FiEdit, FiMoreVertical } from "react-icons/fi";
 import { AiOutlineComment } from "react-icons/ai";
 import { MdOutlineThumbUpOffAlt, MdThumbUpAlt } from "react-icons/md";
 import { format } from "timeago.js";
+
 import { CREATE_COMMENT, LIKE_POST } from "../config/graphql/mutations";
-import { TIMELINE } from "../config/graphql/queries";
+import { GET_USER_POST, TIMELINE } from "../config/graphql/queries";
 import ProfileLink from "./ProfileLink";
 import { useForm } from "../utils/hooks/useForm";
+import { useAuth } from "../context/authContext";
 
 const Comment = ({ postId, comment }) => {
   return (
@@ -56,7 +58,7 @@ const CommentInput = ({ postId }) => {
     try {
       await CreateComment({
         variables: { postId, body: values.body },
-        refetchQueries: [TIMELINE, "Timeline"],
+        refetchQueries: [TIMELINE, GET_USER_POST],
       });
     } catch (error) {
       console.log(error);
@@ -85,7 +87,7 @@ const CommentInput = ({ postId }) => {
 const Post = ({
   id,
   body,
-  user,
+  postUser,
   image,
   createdAt,
   likes,
@@ -94,16 +96,22 @@ const Post = ({
   commentCount,
 }) => {
   const [liked, setLiked] = useState(false);
+  const { user: currentUser } = useAuth();
+
+  console.log("post");
 
   useEffect(() => {
-    if (user && likes.find((like) => like.username === user.username)) {
+    if (
+      currentUser &&
+      likes.find((like) => like.username === currentUser.username)
+    ) {
       setLiked(true);
     } else setLiked(false);
-  }, [user, likes]);
+  }, [currentUser, likes]);
 
   const [LikePost] = useMutation(LIKE_POST, {
     variables: { postId: id },
-    refetchQueries: [TIMELINE, "Timeline"],
+    refetchQueries: [TIMELINE, GET_USER_POST],
   });
 
   return (
@@ -116,18 +124,21 @@ const Post = ({
       rounded="lg">
       <Flex alignItems="center" w="full">
         <HStack>
-          <ProfileLink>
+          <ProfileLink username={postUser.username}>
             <Avatar />
           </ProfileLink>
           <Box>
             <HStack>
               <ProfileLink
+                username={postUser.username}
                 fontWeight="bold"
                 fontSize={{ base: "sm", md: "md" }}>
-                {user.firstName} {user.lastName}
+                {postUser.firstName} {postUser.lastName}
               </ProfileLink>
-              <ProfileLink display={{ base: "none", md: "block" }}>
-                @{user.username}
+              <ProfileLink
+                username={postUser.username}
+                display={{ base: "none", md: "block" }}>
+                @{postUser.username}
               </ProfileLink>
             </HStack>
             <Text fontSize="sm" fontWeight="semibold" color="gray.500">
@@ -136,13 +147,15 @@ const Post = ({
           </Box>
         </HStack>
         <Spacer />
-        <Menu>
-          <MenuButton as={IconButton} icon={<FiMoreVertical />} />
-          <MenuList color="secondary">
-            <MenuItem icon={<FiTrash />}>Delete Post</MenuItem>
-            <MenuItem icon={<FiEdit />}>Edit Post</MenuItem>
-          </MenuList>
-        </Menu>
+        {currentUser.username === postUser.username && (
+          <Menu>
+            <MenuButton as={IconButton} icon={<FiMoreVertical />} />
+            <MenuList color="secondary">
+              <MenuItem icon={<FiTrash />}>Delete Post</MenuItem>
+              <MenuItem icon={<FiEdit />}>Edit Post</MenuItem>
+            </MenuList>
+          </Menu>
+        )}
       </Flex>
       <Divider my="4" />
       <Text>{body}</Text>

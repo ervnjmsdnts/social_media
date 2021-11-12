@@ -1,12 +1,21 @@
+import { useQuery } from "@apollo/client";
 import { Link } from "@chakra-ui/layout";
+import { useEffect, useState } from "react";
 import { Link as RouteLink } from "react-router-dom";
-import { useAuth } from "../context/authContext";
+import { GET_USER } from "../config/graphql/queries";
 
-const ProfileLink = ({ children }) => {
-  const { user } = useAuth();
+const ProfileLink = ({ children, username }) => {
+  const [profile, setProfile] = useState({});
+  const { data: user } = useQuery(GET_USER, { variables: { username } });
+
+  useEffect(() => {
+    if (user) {
+      setProfile(user.getUser);
+    }
+  }, [user]);
 
   return (
-    <Link as={RouteLink} to={`/profile/${user.userId}`}>
+    <Link as={RouteLink} to={`/profile/${profile.username}`}>
       {children}
     </Link>
   );

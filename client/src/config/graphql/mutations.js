@@ -81,3 +81,9 @@ export const DELETE_COMMENT = gql`
     }
   }
 `;
+
+export const ADD_FOLLOW = gql`
+  mutation AddFollow($followId: String!) {
+    addFollow(followId: $followId)
+  }
+`;
