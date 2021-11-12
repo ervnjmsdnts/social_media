@@ -87,3 +87,9 @@ export const ADD_FOLLOW = gql`
     addFollow(followId: $followId)
   }
 `;
+
+export const DELETE_FOLLOW = gql`
+  mutation DeleteFollow($followId: String!) {
+    deleteFollow(followId: $followId)
+  }
+`;

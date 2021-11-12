@@ -19,7 +19,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { FiTrash, FiEdit, FiMoreVertical } from "react-icons/fi";
+import { FiTrash, FiMoreVertical } from "react-icons/fi";
 import { AiOutlineComment } from "react-icons/ai";
 import { MdOutlineThumbUpOffAlt, MdThumbUpAlt } from "react-icons/md";
 import { format } from "timeago.js";
@@ -98,8 +98,6 @@ const Post = ({
   const [liked, setLiked] = useState(false);
   const { user: currentUser } = useAuth();
 
-  console.log("post");
-
   useEffect(() => {
     if (
       currentUser &&
@@ -152,7 +150,6 @@ const Post = ({
             <MenuButton as={IconButton} icon={<FiMoreVertical />} />
             <MenuList color="secondary">
               <MenuItem icon={<FiTrash />}>Delete Post</MenuItem>
-              <MenuItem icon={<FiEdit />}>Edit Post</MenuItem>
             </MenuList>
           </Menu>
         )}

@@ -3,26 +3,45 @@ import { Flex, Text } from "@chakra-ui/layout";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
+import { FiUserPlus, FiUserX } from "react-icons/fi";
+import { Button } from "@chakra-ui/button";
+import { Tooltip } from "@chakra-ui/tooltip";
 import Icon from "@chakra-ui/icon";
-import { AiOutlinePlus } from "react-icons/ai";
 
 import CreatePost from "../components/CreatePost";
 import SideBar from "../components/SideBar";
-import { GET_USER, GET_USER_POST } from "../config/graphql/queries";
 import Post from "../components/Post";
+import { GET_USER, GET_USER_POST } from "../config/graphql/queries";
 import { useAuth } from "../context/authContext";
-import { ADD_FOLLOW } from "../config/graphql/mutations";
+import { ADD_FOLLOW, DELETE_FOLLOW } from "../config/graphql/mutations";
 
 const Profile = () => {
   const [profile, setProfile] = useState({});
+  const [followed, setFollowed] = useState(false);
   const { user: currentUser } = useAuth();
   const { username } = useParams();
 
-  const { data: user } = useQuery(GET_USER, { variables: { username } });
-
-  const [AddFollow] = useMutation(ADD_FOLLOW, {
-    variables: { followId: profile.id },
+  const { data: user, loading: getUserLoading } = useQuery(GET_USER, {
+    variables: { username },
+    fetchPolicy: "network-only",
   });
+
+  const { data: usersPost } = useQuery(GET_USER_POST, {
+    variables: { username },
+  });
+
+  const [AddFollow, { loading: addFollowLoading }] = useMutation(ADD_FOLLOW, {
+    variables: { followId: profile.id },
+    refetchQueries: [GET_USER],
+  });
+
+  const [DeleteFollow, { loading: deleteFollowLoading }] = useMutation(
+    DELETE_FOLLOW,
+    {
+      variables: { followId: profile.id },
+      refetchQueries: [GET_USER],
+    }
+  );
 
   useEffect(() => {
     if (user) {
@@ -30,9 +49,16 @@ const Profile = () => {
     }
   }, [user]);
 
-  const { data: usersPost } = useQuery(GET_USER_POST, {
-    variables: { username },
-  });
+  useEffect(() => {
+    if (
+      currentUser &&
+      profile.follower?.find((userId) => userId === currentUser.userId)
+    ) {
+      setFollowed(true);
+    } else setFollowed(false);
+  }, [currentUser, profile]);
+
+  if (getUserLoading) return null;
 
   return (
     <SideBar>
@@ -50,22 +76,33 @@ const Profile = () => {
             size="2xl"
             showBorder
             borderColor="primary">
-            <Flex
-              as="button"
-              onClick={AddFollow}
-              position="absolute"
-              justifyContent="center"
-              alignItems="center"
-              bottom="0"
-              right="0"
-              bgColor="white"
-              border="2px"
-              borderColor="primary"
-              w="10"
-              h="10"
-              rounded="full">
-              <Icon fontSize="2xl" as={AiOutlinePlus} />
-            </Flex>
+            {currentUser.username !== profile.username && (
+              <Tooltip
+                placement="right"
+                label={followed ? "Unfollow User" : "Follow User"}
+                color="secondary"
+                bgColor="primary">
+                <Button
+                  onClick={followed ? DeleteFollow : AddFollow}
+                  position="absolute"
+                  isLoading={
+                    addFollowLoading || deleteFollowLoading ? true : false
+                  }
+                  _hover={{ bgColor: followed ? "red.400" : "green.400" }}
+                  justifyContent="center"
+                  alignItems="center"
+                  bottom="0"
+                  right="0"
+                  bgColor={followed ? "red.200" : "green.200"}
+                  border="2px"
+                  borderColor="primary"
+                  w="10"
+                  h="10"
+                  rounded="full">
+                  <Icon fontSize="2xl" as={followed ? FiUserX : FiUserPlus} />
+                </Button>
+              </Tooltip>
+            )}
           </Avatar>
         </Flex>
         <Flex
