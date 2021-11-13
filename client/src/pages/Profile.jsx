@@ -120,11 +120,12 @@ const Profile = () => {
         </Flex>
         {currentUser.username === profile.username && <CreatePost />}
         {usersPost?.getUserPost.map((userPost) => {
-          const { id, body, createdAt, likes, comments } = userPost;
+          const { id, body, file, createdAt, likes, comments } = userPost;
           return (
             <Post
               key={id}
               id={id}
+              image={file}
               body={body}
               postUser={profile}
               createdAt={createdAt}
