@@ -186,7 +186,11 @@ const Post = ({
       <Divider my="4" />
       <Box px="4">
         <Text mb="2">{body}</Text>
-        <Center>{image && <Image src={image} />}</Center>
+        <Center>
+          {image && (
+            <Image boxSize="fit-content" maxH="2xl" maxW="2xl" src={image} />
+          )}
+        </Center>
       </Box>
       <Divider my="4" />
       <HStack>

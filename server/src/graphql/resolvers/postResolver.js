@@ -93,6 +93,17 @@ export const postMutations = {
       throw new Error("Action not allowed");
     }
 
+    if (post.file) {
+      const filename = post.file.split("/").pop();
+      const filePath = path.join(
+        __dirname,
+        `../../../public/images/${filename}`
+      );
+      fs.unlink(filePath, (error) => {
+        if (error) throw new Error("File cannot be deleted");
+      });
+    }
+
     await post.delete();
     return "Post has been deleted";
   },
