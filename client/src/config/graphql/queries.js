@@ -5,6 +5,7 @@ export const TIMELINE = gql`
     timeline {
       id
       body
+      file
       user {
         id
         firstName
@@ -33,6 +34,7 @@ export const GET_ALL_POSTS = gql`
     getAllPosts {
       id
       body
+      file
       user
       comments {
         id
@@ -54,6 +56,7 @@ export const GET_USER_POST = gql`
     getUserPost(username: $username) {
       id
       body
+      file
       user
       comments {
         id

@@ -1,6 +1,7 @@
 import { useMutation } from "@apollo/client";
 import {
   Box,
+  Center,
   Divider,
   Flex,
   HStack,
@@ -15,6 +16,7 @@ import {
   IconButton,
   MenuList,
   MenuItem,
+  Image,
   Input,
   Button,
 } from "@chakra-ui/react";
@@ -182,7 +184,10 @@ const Post = ({
         )}
       </Flex>
       <Divider my="4" />
-      <Text>{body}</Text>
+      <Box px="4">
+        <Text mb="2">{body}</Text>
+        <Center>{image && <Image src={image} />}</Center>
+      </Box>
       <Divider my="4" />
       <HStack>
         <Button onClick={LikePost}>

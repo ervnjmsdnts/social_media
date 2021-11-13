@@ -41,10 +41,11 @@ export const LOGOUT = gql`
 `;
 
 export const CREATE_POST = gql`
-  mutation CreatePost($body: String!) {
-    createPost(body: $body) {
+  mutation CreatePost($body: String!, $file: Upload) {
+    createPost(body: $body, file: $file) {
       id
       body
+      file
     }
   }
 `;

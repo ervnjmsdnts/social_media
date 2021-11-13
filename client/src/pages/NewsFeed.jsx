@@ -9,17 +9,20 @@ import { TIMELINE } from "../config/graphql/queries";
 const NewsFeed = () => {
   const { data } = useQuery(TIMELINE, { fetchPolicy: "network-only" });
 
+  console.log(data);
+
   return (
     <SideBar>
       <Flex alignItems="center" direction="column" maxW="container.lg" w="full">
         <CreatePost />
         {data?.timeline.map((post) => {
-          const { id, body, user, createdAt, likes, comments } = post;
+          const { id, body, file, user, createdAt, likes, comments } = post;
           return (
             <Post
               key={id}
               id={id}
               body={body}
+              image={file}
               postUser={user}
               createdAt={createdAt}
               likes={likes}

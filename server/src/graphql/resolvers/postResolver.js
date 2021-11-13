@@ -1,4 +1,6 @@
 import { UserInputError } from "apollo-server-express";
+import path from "path";
+import fs from "fs";
 
 import { Post } from "../../models/post";
 import { User } from "../../models/user";
@@ -43,7 +45,7 @@ export const postQueries = {
 };
 
 export const postMutations = {
-  createPost: async (_, { body }, context) => {
+  createPost: async (_, { body, file }, context) => {
     const { valid, errors } = postValidator(body);
 
     if (!valid) {
@@ -53,9 +55,23 @@ export const postMutations = {
     const { id } = await checkAuth(context);
     const user = await User.findById(id);
 
+    let uploadedFile = "";
+
+    if (file) {
+      const { createReadStream, filename } = await file;
+      const stream = createReadStream();
+      const pathName = path.join(
+        __dirname,
+        `../../../public/images/${filename}`
+      );
+      await stream.pipe(fs.createWriteStream(pathName));
+      uploadedFile = `http://localhost:5000/images/${filename}`;
+    }
+
     try {
       const post = await new Post({
         body,
+        file: uploadedFile,
         user,
       });
 

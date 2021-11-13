@@ -3,6 +3,7 @@ import { model, Schema } from "mongoose";
 const postSchema = new Schema(
   {
     body: String,
+    file: String,
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",

@@ -2,6 +2,7 @@ import { gql } from "apollo-server-express";
 
 const typeDefs = gql`
   scalar Date
+  scalar Upload
   type User {
     id: ID!
     firstName: String!
@@ -21,6 +22,7 @@ const typeDefs = gql`
   type Post {
     id: ID!
     body: String!
+    file: String
     user: String!
     comments: [Comment]!
     likes: [Like]!
@@ -31,6 +33,7 @@ const typeDefs = gql`
   type Timeline {
     id: ID!
     body: String!
+    file: String
     user: User!
     comments: [Comment]!
     likes: [Like]!
@@ -72,7 +75,7 @@ const typeDefs = gql`
     logout: Boolean!
     addFollow(followId: String!): String!
     deleteFollow(followId: String!): String!
-    createPost(body: String!): Post!
+    createPost(body: String!, file: Upload): Post!
     deletePost(postId: ID!): String!
     createComment(postId: ID!, body: String!): Post!
     deleteComment(postId: ID!, commentId: ID!): Post!
