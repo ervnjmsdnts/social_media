@@ -13,7 +13,14 @@ import SideBar from "../components/SideBar";
 import Post from "../components/Post";
 import { GET_USER, GET_USER_POST } from "../config/graphql/queries";
 import { useAuth } from "../context/authContext";
-import { ADD_FOLLOW, DELETE_FOLLOW } from "../config/graphql/mutations";
+import {
+  ADD_FOLLOW,
+  CHANGE_COVER_PHOTO,
+  CHANGE_PROFILE_PHOTO,
+  DELETE_FOLLOW,
+} from "../config/graphql/mutations";
+import { Input } from "@chakra-ui/input";
+import { Image } from "@chakra-ui/image";
 
 const Profile = () => {
   const [profile, setProfile] = useState({});
@@ -43,6 +50,10 @@ const Profile = () => {
     }
   );
 
+  const [ChangeProfilePhoto] = useMutation(CHANGE_PROFILE_PHOTO);
+
+  const [ChangeCoverPhoto] = useMutation(CHANGE_COVER_PHOTO);
+
   useEffect(() => {
     if (user) {
       setProfile(user.getUser);
@@ -58,22 +69,44 @@ const Profile = () => {
     } else setFollowed(false);
   }, [currentUser, profile]);
 
+  const handleChangeProfilePhoto = async (e) => {
+    const profilePhoto = e.target.files[0];
+    if (!profilePhoto) return;
+    await ChangeProfilePhoto({
+      variables: { profilePhoto },
+      refetchQueries: [GET_USER, GET_USER_POST],
+    });
+  };
+
+  const handleChangeCoverPhoto = async (e) => {
+    const coverPhoto = e.target.files[0];
+    if (!coverPhoto) return;
+    await ChangeCoverPhoto({
+      variables: { coverPhoto },
+      refetchQueries: [GET_USER, GET_USER_POST],
+    });
+  };
+
   if (getUserLoading) return null;
 
   return (
     <SideBar>
       <Flex direction="column" alignItems="center" maxW="container.lg" w="full">
-        <Flex
-          position="relative"
-          w="full"
-          justifyContent="center"
-          bgColor="primary"
-          rounded="lg"
-          h="xs">
+        <Flex position="relative" justifyContent="center" w="full">
+          <Image
+            position="relative"
+            w="full"
+            src={profile.coverPhoto}
+            fallbackSrc="https://via.placeholder.com/150/17213D/17213D"
+            rounded="lg"
+            h="xs"
+          />
           <Avatar
             position="absolute"
             bottom="-16"
+            zIndex="1"
             size="2xl"
+            src={profile.profilePhoto}
             showBorder
             borderColor="primary">
             {currentUser.username !== profile.username && (
@@ -81,6 +114,8 @@ const Profile = () => {
                 placement="right"
                 label={followed ? "Unfollow User" : "Follow User"}
                 color="secondary"
+                rounded="md"
+                shadow="dark-lg"
                 bgColor="primary">
                 <Button
                   onClick={followed ? DeleteFollow : AddFollow}
@@ -103,7 +138,51 @@ const Profile = () => {
                 </Button>
               </Tooltip>
             )}
+            {currentUser.username === profile.username && (
+              <Tooltip
+                placement="right"
+                label="Change Profile Photo"
+                color="secondary"
+                border="2px"
+                rounded="md"
+                shadow="dark-lg"
+                borderColor="secondary"
+                bgColor="primary">
+                <Input
+                  type="file"
+                  position="absolute"
+                  zIndex="2"
+                  w="full"
+                  h="full"
+                  onChange={handleChangeProfilePhoto}
+                  cursor="pointer"
+                  rounded="full"
+                  opacity="0"
+                />
+              </Tooltip>
+            )}
           </Avatar>
+          {currentUser.username === profile.username && (
+            <Tooltip
+              placement="bottom-end"
+              label="Change Cover Photo"
+              border="2px"
+              rounded="md"
+              shadow="dark-lg"
+              borderColor="secondary"
+              bgColor="primary"
+              color="secondary">
+              <Input
+                type="file"
+                position="absolute"
+                opacity="0"
+                onChange={handleChangeCoverPhoto}
+                cursor="pointer"
+                _focus={{ bgColor: "transparent" }}
+                h="full"
+              />
+            </Tooltip>
+          )}
         </Flex>
         <Flex
           direction="column"

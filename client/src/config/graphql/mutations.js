@@ -100,3 +100,15 @@ export const DELETE_FOLLOW = gql`
     deleteFollow(followId: $followId)
   }
 `;
+
+export const CHANGE_PROFILE_PHOTO = gql`
+  mutation ChangeProfilePhoto($profilePhoto: Upload!) {
+    changeProfilePhoto(profilePhoto: $profilePhoto)
+  }
+`;
+
+export const CHANGE_COVER_PHOTO = gql`
+  mutation ChangeCoverPhoto($coverPhoto: Upload!) {
+    changeCoverPhoto(coverPhoto: $coverPhoto)
+  }
+`;

@@ -6,6 +6,7 @@ import { Post } from "../../models/post";
 import { User } from "../../models/user";
 import { checkAuth } from "../../utils/checkAuth";
 import { postValidator } from "../../utils/validators";
+import { generateRandomString } from "../../utils/generateRandomString";
 
 export const postQueries = {
   getAllPosts: async () => {
@@ -59,13 +60,18 @@ export const postMutations = {
 
     if (file) {
       const { createReadStream, filename } = await file;
+
+      const { ext } = path.parse(filename);
+      const randomName = generateRandomString(20) + ext;
+
       const stream = createReadStream();
       const pathName = path.join(
         __dirname,
-        `../../../public/images/${filename}`
+        `../../../public/images/${randomName}`
       );
+
       await stream.pipe(fs.createWriteStream(pathName));
-      uploadedFile = `http://localhost:5000/images/${filename}`;
+      uploadedFile = `http://localhost:5000/images/${randomName}`;
     }
 
     try {

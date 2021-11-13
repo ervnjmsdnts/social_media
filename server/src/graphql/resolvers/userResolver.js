@@ -1,5 +1,7 @@
 import { genSalt, hash, compare } from "bcrypt";
 import { UserInputError, AuthenticationError } from "apollo-server-express";
+import path from "path";
+import fs from "fs";
 
 import { User } from "../../models/user";
 import { createAccessToken, createRefreshToken } from "../../utils/createToken";
@@ -7,6 +9,7 @@ import { checkAuth } from "../../utils/checkAuth";
 import { sendConfirmationEmail } from "../../services/emailService";
 import { sendRefreshToken } from "../../utils/sendRefreshToken";
 import { loginValidator, registerValidator } from "../../utils/validators";
+import { generateRandomString } from "../../utils/generateRandomString";
 
 export const userQueries = {
   getAllUsers: async () => {
@@ -110,6 +113,78 @@ export const userMutations = {
   logout: async (_, __, { res }) => {
     res.clearCookie("jai");
     return true;
+  },
+
+  changeProfilePhoto: async (_, { profilePhoto }, context) => {
+    const { id } = await checkAuth(context);
+
+    const user = await User.findById(id);
+
+    if (!profilePhoto) return;
+
+    if (user.profilePhoto !== "") {
+      const filename = user.profilePhoto.split("/").pop();
+      const filePath = path.join(
+        __dirname,
+        `../../../public/images/${filename}`
+      );
+      fs.unlink(filePath, (error) => {
+        if (error) throw new Error("File cannot be deleted");
+      });
+    }
+
+    const { createReadStream, filename } = await profilePhoto;
+
+    const { ext } = path.parse(filename);
+    const randomName = generateRandomString(20) + ext;
+
+    const stream = createReadStream();
+    const pathName = path.join(
+      __dirname,
+      `../../../public/images/${randomName}`
+    );
+    await stream.pipe(fs.createWriteStream(pathName));
+
+    const uploadedProfilePhoto = `http://localhost:5000/images/${randomName}`;
+    await user.updateOne({ profilePhoto: uploadedProfilePhoto });
+
+    return "User's profile photo has been updated";
+  },
+
+  changeCoverPhoto: async (_, { coverPhoto }, context) => {
+    const { id } = await checkAuth(context);
+
+    const user = await User.findById(id);
+
+    if (!coverPhoto) return;
+
+    if (user.coverPhoto !== "") {
+      const filename = user.coverPhoto.split("/").pop();
+      const filePath = path.join(
+        __dirname,
+        `../../../public/images/${filename}`
+      );
+      fs.unlink(filePath, (error) => {
+        if (error) throw new Error("File cannot be deleted");
+      });
+    }
+
+    const { createReadStream, filename } = await coverPhoto;
+
+    const { ext } = path.parse(filename);
+    const randomName = generateRandomString(20) + ext;
+
+    const stream = createReadStream();
+    const pathName = path.join(
+      __dirname,
+      `../../../public/images/${randomName}`
+    );
+    await stream.pipe(fs.createWriteStream(pathName));
+
+    const uploadedCoverPhoto = `http://localhost:5000/images/${randomName}`;
+    await user.updateOne({ coverPhoto: uploadedCoverPhoto });
+
+    return "User's cover photo has been updated";
   },
 
   addFollow: async (_, { followId }, context) => {

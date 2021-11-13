@@ -90,7 +90,6 @@ const CommentInput = ({ postId }) => {
   const { onSubmit, onChange, values } = useForm(commentCallBack, { body: "" });
   return (
     <HStack as="form" onSubmit={onSubmit}>
-      <Avatar size="sm" />
       <Input
         placeholder="Write a comment"
         name="body"
@@ -150,7 +149,7 @@ const Post = ({
       <Flex alignItems="center" w="full">
         <HStack>
           <ProfileLink username={postUser.username}>
-            <Avatar />
+            <Avatar src={postUser.profilePhoto} />
           </ProfileLink>
           <Box>
             <HStack>

@@ -73,6 +73,8 @@ const typeDefs = gql`
     ): User
     login(username: String!, password: String!): User!
     logout: Boolean!
+    changeProfilePhoto(profilePhoto: Upload!): String!
+    changeCoverPhoto(coverPhoto: Upload!): String!
     addFollow(followId: String!): String!
     deleteFollow(followId: String!): String!
     createPost(body: String!, file: Upload): Post!

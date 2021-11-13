@@ -11,6 +11,7 @@ export const TIMELINE = gql`
         firstName
         lastName
         username
+        profilePhoto
       }
       comments {
         id

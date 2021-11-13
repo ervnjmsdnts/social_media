@@ -1,4 +1,3 @@
-import { Avatar } from "@chakra-ui/avatar";
 import { Button } from "@chakra-ui/button";
 import Icon from "@chakra-ui/icon";
 import { Input } from "@chakra-ui/input";
@@ -9,19 +8,16 @@ import { useMutation } from "@apollo/client";
 import { useForm } from "../utils/hooks/useForm";
 import { GET_USER_POST, TIMELINE } from "../config/graphql/queries";
 import { CREATE_POST } from "../config/graphql/mutations";
-import { useAuth } from "../context/authContext";
 import { useState } from "react";
-import ProfileLink from "./ProfileLink";
 
 const CreatePost = () => {
   const [file, setFile] = useState("");
   const [CreatePost] = useMutation(CREATE_POST);
-  const { user } = useAuth();
 
   const createPostCallBack = async () => {
     try {
       await CreatePost({
-        variables: { ...values, file },
+        variables: { ...values, file: file !== "" ? file : null },
         refetchQueries: [TIMELINE, GET_USER_POST],
       });
       setFile("");
@@ -46,13 +42,6 @@ const CreatePost = () => {
       p="4"
       rounded="lg">
       <Flex alignItems="center" w="full">
-        <ProfileLink username={user.username}>
-          <Avatar
-            size="md"
-            mr="4"
-            src="https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-          />
-        </ProfileLink>
         <Input
           size="md"
           borderColor="secondary"

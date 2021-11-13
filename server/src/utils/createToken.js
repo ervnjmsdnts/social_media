@@ -6,6 +6,7 @@ export const createAccessToken = (user) => {
       userId: user.id,
       givenName: `${user.firstName} ${user.lastName}`,
       username: user.username,
+      profilePhoto: user.profilePhoto,
     },
     process.env.ACCESS_TOKEN_SECRET,
     {
@@ -20,6 +21,7 @@ export const createRefreshToken = (user) => {
       userId: user.id,
       userGivenName: `${user.firstName} ${user.lastName}`,
       username: user.username,
+      profilePhoto: user.profilePhoto,
     },
     process.env.REFRESH_TOKEN_SECRET,
     {
