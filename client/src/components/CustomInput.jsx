@@ -1,8 +1,8 @@
 import { Input, FormControl, FormLabel } from "@chakra-ui/react";
 
-const CustomInput = ({ label, placeholder, ...props }) => {
+const CustomInput = ({ label, isRequired, placeholder, ...props }) => {
   return (
-    <FormControl isRequired>
+    <FormControl>
       <FormLabel fontSize="lg">{label}</FormLabel>
       <Input
         placeholder={placeholder}

@@ -90,7 +90,7 @@ const Profile = () => {
   if (getUserLoading) return null;
 
   return (
-    <SideBar>
+    <SideBar alignItems="center" py="4">
       <Flex direction="column" alignItems="center" maxW="container.lg" w="full">
         <Flex position="relative" justifyContent="center" w="full">
           <Image

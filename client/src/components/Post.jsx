@@ -47,7 +47,7 @@ const Comment = ({ postId, comment }) => {
     <HStack mb="4" spacing="4" pl="4" role="group">
       <Box>
         <ProfileLink username={comment.username}>
-          <Text>{comment.username}</Text>
+          <Text>@{comment.username}</Text>
         </ProfileLink>
         <Text fontSize="xs" color="gray.500">
           {format(comment.createdAt)}

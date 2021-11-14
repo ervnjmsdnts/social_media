@@ -42,7 +42,7 @@ const LinkItems = [
   { name: "News Feed", icon: FaNewspaper, to: "/" },
 ];
 
-const SideBar = ({ children }) => {
+const SideBar = ({ children, ...props }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box minH="100vh" bg="secondary">
@@ -64,11 +64,7 @@ const SideBar = ({ children }) => {
       </Drawer>
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
-      <Flex
-        ml={{ base: 0, md: 60 }}
-        p="4"
-        alignItems="center"
-        direction="column">
+      <Flex ml={{ base: 0, md: 60 }} direction="column" {...props}>
         {children}
       </Flex>
     </Box>

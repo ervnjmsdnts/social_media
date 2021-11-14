@@ -12,7 +12,7 @@ const NewsFeed = () => {
   console.log(data);
 
   return (
-    <SideBar>
+    <SideBar alignItems="center" py="4">
       <Flex alignItems="center" direction="column" maxW="container.lg" w="full">
         <CreatePost />
         {data?.timeline.map((post) => {
