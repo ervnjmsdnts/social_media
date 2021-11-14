@@ -45,32 +45,35 @@ const Comment = ({ postId, comment }) => {
   });
 
   return (
-    <VStack mb="4" alignItems="start" spacing="0">
-      <HStack w="full" role="group">
-        <Avatar size="sm" />
-        <Box
-          w="auto"
-          maxW="full"
-          bgColor="whiteAlpha.200"
-          p="2"
-          color="secondary"
-          rounded="md">
-          <Text>{comment.body}</Text>
-        </Box>
-        {currentUser.username === comment.username && (
-          <IconButton
-            onClick={DeleteComment}
-            size="sm"
-            display="none"
-            _groupHover={{ display: "flex" }}
-            icon={<FiTrash />}
-          />
-        )}
-      </HStack>
-      <Text fontSize="sm" color="gray.500" pl="10">
-        {format(comment.createdAt)}
-      </Text>
-    </VStack>
+    <HStack mb="4" spacing="4" pl="4" role="group">
+      <Box>
+        <ProfileLink username={comment.username}>
+          <Text>{comment.username}</Text>
+        </ProfileLink>
+        <Text fontSize="xs" color="gray.500">
+          {format(comment.createdAt)}
+        </Text>
+      </Box>
+      <Box
+        w="auto"
+        maxW="full"
+        bgColor="whiteAlpha.200"
+        py="2"
+        px="4"
+        color="secondary"
+        rounded="md">
+        <Text>{comment.body}</Text>
+      </Box>
+      {currentUser.username === comment.username && (
+        <IconButton
+          onClick={DeleteComment}
+          size="sm"
+          display="none"
+          _groupHover={{ display: "flex" }}
+          icon={<FiTrash />}
+        />
+      )}
+    </HStack>
   );
 };
 
@@ -208,7 +211,12 @@ const Post = ({
       </HStack>
       <Divider my="4" />
       {comments.map((comment) => (
-        <Comment key={comment.id} postId={id} comment={comment} />
+        <Comment
+          key={comment.id}
+          postId={id}
+          comment={comment}
+          user={postUser}
+        />
       ))}
       <CommentInput postId={id} />
     </Flex>
