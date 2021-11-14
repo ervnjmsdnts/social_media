@@ -92,3 +92,15 @@ export const GET_USER = gql`
     }
   }
 `;
+
+export const GET_ALL_USERS = gql`
+  query GetAllUser {
+    getAllUsers {
+      id
+      username
+      firstName
+      lastName
+      profilePhoto
+    }
+  }
+`;

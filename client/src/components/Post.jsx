@@ -7,7 +7,6 @@ import {
   HStack,
   Spacer,
   Text,
-  VStack,
 } from "@chakra-ui/layout";
 import {
   Avatar,

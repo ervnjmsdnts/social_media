@@ -11,6 +11,15 @@ import {
   DrawerContent,
   Text,
   useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  Input,
+  Divider,
+  Avatar,
   Menu,
   MenuButton,
   MenuDivider,
@@ -20,10 +29,13 @@ import {
 import { useNavigate, Link as RouteLink } from "react-router-dom";
 import { FaCommentDots, FaNewspaper } from "react-icons/fa";
 import { FiBell, FiChevronDown, FiMenu, FiSearch } from "react-icons/fi";
-import { useApolloClient, useMutation } from "@apollo/client";
+import { useApolloClient, useMutation, useQuery } from "@apollo/client";
+import { useEffect, useState } from "react";
 
 import { LOGOUT } from "../config/graphql/mutations";
 import { useAuth } from "../context/authContext";
+import { GET_ALL_USERS } from "../config/graphql/queries";
+import ProfileLink from "./ProfileLink";
 
 const LinkItems = [
   { name: "Messages", icon: FaCommentDots, to: "/messages" },
@@ -122,6 +134,8 @@ const MobileNav = ({ onOpen, ...rest }) => {
   const [Logout] = useMutation(LOGOUT);
   const { logout, user } = useAuth();
 
+  const { isOpen, onOpen: modalOpen, onClose } = useDisclosure();
+
   const onClick = async () => {
     await Logout();
     localStorage.removeItem("accessToken");
@@ -156,7 +170,12 @@ const MobileNav = ({ onOpen, ...rest }) => {
       </Text>
 
       <HStack spacing={{ base: "0", md: "6" }}>
-        <IconButton size="lg" variant="ghost" icon={<FiSearch />} />
+        <IconButton
+          size="lg"
+          variant="ghost"
+          icon={<FiSearch />}
+          onClick={modalOpen}
+        />
         <IconButton
           size="lg"
           variant="ghost"
@@ -197,7 +216,74 @@ const MobileNav = ({ onOpen, ...rest }) => {
           </Menu>
         </Flex>
       </HStack>
+      <SearchModal isOpen={isOpen} onClose={onClose} />
     </Flex>
+  );
+};
+
+const SearchModal = ({ isOpen, onClose }) => {
+  const [searchUser, setSearchUser] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+
+  const { data: allUserData } = useQuery(GET_ALL_USERS);
+
+  useEffect(() => {
+    const results = allUserData?.getAllUsers.filter((user) =>
+      user.username.toLowerCase().includes(searchUser)
+    );
+
+    setSearchResult(results);
+  }, [searchUser, allUserData]);
+
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} size="lg">
+      <ModalOverlay />
+      <ModalContent bgColor="primary" color="secondary" mx="4">
+        <ModalHeader>Search User</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <Input
+            value={searchUser}
+            placeholder="Search Username"
+            onChange={(e) => setSearchUser(e.target.value)}
+          />
+          <Divider my="4" />
+          <VStack alignItems="start" w="full" spacing="4">
+            {searchResult?.map((result) => (
+              <SearchUserItem
+                key={result.id}
+                firstName={result.firstName}
+                lastName={result.lastName}
+                username={result.username}
+                profilePhoto={result.profilePhoto}
+              />
+            ))}
+          </VStack>
+        </ModalBody>
+      </ModalContent>
+    </Modal>
+  );
+};
+
+const SearchUserItem = ({ firstName, lastName, username, profilePhoto }) => {
+  return (
+    <Box
+      w="full"
+      _hover={{ bgColor: "secondary", color: "primary" }}
+      p="2"
+      rounded="md">
+      <ProfileLink username={username}>
+        <Flex>
+          <Avatar src={profilePhoto} />
+          <Box ml="2">
+            <Text>
+              {firstName} {lastName}
+            </Text>
+            <Text>@{username}</Text>
+          </Box>
+        </Flex>
+      </ProfileLink>
+    </Box>
   );
 };
 
