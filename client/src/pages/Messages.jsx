@@ -26,6 +26,19 @@ const Messages = () => {
           <VStack flexGrow="1" overflowY="auto">
             <ReceiverMessage />
             <SenderMessage />
+            <ReceiverMessage />
+            <ReceiverMessage />
+            <SenderMessage />
+            <ReceiverMessage />
+            <SenderMessage />
+            <ReceiverMessage />
+            <ReceiverMessage />
+            <SenderMessage />
+            <ReceiverMessage />
+            <SenderMessage />
+            <ReceiverMessage />
+            <ReceiverMessage />
+            <SenderMessage />
           </VStack>
           <WriteMessage />
         </Flex>
